@@ -53,6 +53,10 @@ public class BlockEntityRewriter {
         BLOCK_ENTITY_REWRITERS.put(CustomBlockTags.MOVING_BLOCK, NULL_REWRITER);
         BLOCK_ENTITY_REWRITERS.put(CustomBlockTags.SCULK_SENSOR, NOOP_REWRITER);
         BLOCK_ENTITY_REWRITERS.put(CustomBlockTags.SCULK_SHRIEKER, NOOP_REWRITER);
+        BLOCK_ENTITY_REWRITERS.put(CustomBlockTags.SHELF, NOOP_REWRITER);
+        BLOCK_ENTITY_REWRITERS.put(CustomBlockTags.TRIAL_SPAWNER, NOOP_REWRITER);
+        BLOCK_ENTITY_REWRITERS.put(CustomBlockTags.VAULT, NOOP_REWRITER);
+        BLOCK_ENTITY_REWRITERS.put(CustomBlockTags.WORKBENCH, NULL_REWRITER);
 
         BLOCK_ENTITY_REWRITERS.put(CustomBlockTags.BANNER, new BannerBlockEntityRewriter());
         BLOCK_ENTITY_REWRITERS.put(CustomBlockTags.BARREL, new LootableContainerBlockEntityRewriter());
@@ -125,7 +129,7 @@ public class BlockEntityRewriter {
 
             return javaBlockEntity;
         } else {
-            ViaBedrock.getPlatform().getLogger().log(Level.WARNING, "Missing block entity translation for " + bedrockBlockStateId + " (" + bedrockBlockEntity.tag() + ")");
+            ViaBedrock.getPlatform().getLogger().log(Level.WARNING, "Missing block entity translation for " + bedrockBlockStateId + " (" + tag + ")");
         }
 
         return null;

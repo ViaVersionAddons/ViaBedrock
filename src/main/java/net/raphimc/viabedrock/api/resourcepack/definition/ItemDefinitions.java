@@ -69,6 +69,14 @@ public class ItemDefinitions {
                         }
                     }
                 }
+
+                if (itemProperties.contains("minecraft:max_stack_size")) {
+                    itemDefinition.maxStackSize = itemProperties.getInt("minecraft:max_stack_size");
+                }
+
+                if (itemProperties.contains("minecraft:allow_offhand")) {
+                    itemDefinition.allowOffhand = itemProperties.getBoolean("minecraft:allow_offhand");
+                }
             }
             if (components.get("minecraft:display_name") instanceof CompoundTag displayName) {
                 if (displayName.get("value") instanceof StringTag value) {
@@ -92,6 +100,8 @@ public class ItemDefinitions {
         private final String identifier;
         private String iconComponent;
         private String displayNameComponent;
+        private Integer maxStackSize;
+        private boolean allowOffhand = false;
 
         public ItemDefinition(final String identifier) {
             this.identifier = identifier;
@@ -107,6 +117,14 @@ public class ItemDefinitions {
 
         public String displayNameComponent() {
             return this.displayNameComponent;
+        }
+
+        public Integer maxStackSize() {
+            return this.maxStackSize;
+        }
+
+        public boolean allowOffhand() {
+            return this.allowOffhand;
         }
 
     }

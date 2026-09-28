@@ -30,13 +30,15 @@ public class BedrockItemType extends Type<BedrockItem> {
     private final int blockingId;
     private final Int2ObjectMap<IntSortedSet> blockItemValidBlockStates;
     private final boolean writeItemNetId;
+    private final boolean itemNetId;
 
-    public BedrockItemType(final int blockingId, final Int2ObjectMap<IntSortedSet> blockItemValidBlockStates, final boolean writeItemNetId) {
+    public BedrockItemType(final int blockingId, final Int2ObjectMap<IntSortedSet> blockItemValidBlockStates, final boolean writeItemNetId, final boolean itemNetId) {
         super(BedrockItem.class);
 
         this.blockingId = blockingId;
         this.blockItemValidBlockStates = blockItemValidBlockStates;
         this.writeItemNetId = writeItemNetId;
+        this.itemNetId = itemNetId;
     }
 
     @Override
@@ -49,7 +51,7 @@ public class BedrockItemType extends Type<BedrockItem> {
         final BedrockItem item = new BedrockItem(id);
         item.setAmount(buffer.readUnsignedShortLE());
         item.setData(BedrockTypes.UNSIGNED_VAR_INT.read(buffer));
-        if (buffer.readBoolean()) {
+        if (this.itemNetId && buffer.readBoolean()) {
             item.setNetId(BedrockTypes.VAR_INT.read(buffer));
         }
         item.setBlockRuntimeId(BedrockTypes.VAR_INT.read(buffer));
@@ -98,12 +100,12 @@ public class BedrockItemType extends Type<BedrockItem> {
         BedrockTypes.VAR_INT.write(buffer, value.identifier());
         buffer.writeShortLE(value.amount());
         BedrockTypes.UNSIGNED_VAR_INT.write(buffer, (int) value.data());
-        if (this.writeItemNetId) {
+        if (this.itemNetId && this.writeItemNetId) {
             buffer.writeBoolean(value.netId() != null);
             if (value.netId() != null) {
                 BedrockTypes.VAR_INT.write(buffer, value.netId());
             }
-        } else {
+        } else if (this.itemNetId) {
             buffer.writeBoolean(false);
         }
         BedrockTypes.VAR_INT.write(buffer, value.blockRuntimeId());

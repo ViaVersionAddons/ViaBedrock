@@ -3,6 +3,7 @@ package net.raphimc.viabedrock.protocol.data.generated.bedrock;
 
 public class CustomBlockTags {
 
+    public static final String ANVIL = "anvil";
     public static final String BANNER = "banner";
     public static final String BARREL = "barrel";
     public static final String BEACON = "beacon";
@@ -33,6 +34,7 @@ public class CustomBlockTags {
     public static final String ENDER_CHEST = "ender_chest";
     public static final String FLOWER_POT = "flower_pot";
     public static final String FURNACE = "furnace";
+    public static final String GRINDSTONE = "grindstone";
     public static final String HANGING_SIGN = "hanging_sign";
     public static final String HOPPER = "hopper";
     public static final String ITEM_FRAME = "item_frame";
@@ -52,6 +54,7 @@ public class CustomBlockTags {
     public static final String SHULKER_BOX = "shulker_box";
     public static final String SIGN = "sign";
     public static final String SKULL = "skull";
+    public static final String SMITHING_TABLE = "smithing_table";
     public static final String SMOKER = "smoker";
     public static final String SPORE_BLOSSOM = "spore_blossom";
     public static final String STRUCTURE_BLOCK = "structure_block";
@@ -59,5 +62,6 @@ public class CustomBlockTags {
     public static final String TRIAL_SPAWNER = "trial_spawner";
     public static final String VAULT = "vault";
     public static final String WATER = "water";
+    public static final String WORKBENCH = "workbench";
 
 }

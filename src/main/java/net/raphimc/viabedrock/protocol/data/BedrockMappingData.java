@@ -83,6 +83,8 @@ public class BedrockMappingData extends MappingDataBase {
     private CompoundTag javaRegistries;
     private CompoundTag javaTags;
     private BiMap<String, Integer> javaCommandArgumentTypes;
+    private BiMap<String, Integer> javaMenus;
+    private BiMap<String, Integer> javaSlotDisplays;
 
     // Block states
     private BlockStateUpgrader bedrockBlockStateUpgrader;
@@ -108,6 +110,7 @@ public class BedrockMappingData extends MappingDataBase {
     // Items
     private ItemUpgrader bedrockItemUpgrader;
     private BiMap<String, Integer> javaItems;
+    private BiMap<String, CompoundTag> bedrockItems;
     private Set<String> bedrockBlockItems;
     private Set<String> bedrockMetaItems;
     private Map<String, Set<String>> bedrockItemTags;
@@ -129,6 +132,7 @@ public class BedrockMappingData extends MappingDataBase {
     private BiMap<String, Integer> javaEffects;
     private BiMap<String, Integer> bedrockEffects;
     private Map<String, String> bedrockToJavaEffects;
+    private Map<String, String> javaToBedrockEffects; //TODO: I dont know how bimaps work
 
     // World Effects
     private BiMap<String, Integer> javaSounds;
@@ -406,13 +410,14 @@ public class BedrockMappingData extends MappingDataBase {
                 this.javaItems.put(Key.namespaced(javaItemsJson.get(i).getAsString()), i);
             }
 
-            final JsonArray bedrockItemsJson = this.readJson("bedrock/runtime_item_states.json", JsonArray.class);
+            final JsonObject bedrockItemsJson = this.readJson("bedrock/items.json");
             final Set<String> bedrockItems = new HashSet<>(bedrockItemsJson.size());
+            this.bedrockItems = HashBiMap.create(bedrockItemsJson.size()); // TODO: this can probs be used instead of the block + meta split
             this.bedrockBlockItems = new HashSet<>();
             this.bedrockMetaItems = new HashSet<>();
-            for (JsonElement entry : bedrockItemsJson) {
-                final JsonObject itemEntry = entry.getAsJsonObject();
-                final String identifier = itemEntry.get("name").getAsString();
+            for (Map.Entry<String, JsonElement> entry : bedrockItemsJson.entrySet()) {
+                final JsonObject itemEntry = entry.getValue().getAsJsonObject();
+                final String identifier = entry.getKey();
                 final int id = itemEntry.get("id").getAsInt();
                 bedrockItems.add(identifier);
                 if (id <= ProtocolConstants.LAST_BLOCK_ITEM_ID) {
@@ -420,6 +425,8 @@ public class BedrockMappingData extends MappingDataBase {
                 } else {
                     this.bedrockMetaItems.add(identifier);
                 }
+
+                this.bedrockItems.put(identifier, SNBT.deserializeCompoundTag(itemEntry.toString()));
             }
 
             final JsonObject bedrockItemTagsJson = this.readJson("bedrock/item_tags.json");
@@ -550,9 +557,15 @@ public class BedrockMappingData extends MappingDataBase {
             }
 
             final JsonArray javaMenusJson = javaViaMappingJson.get("menus").getAsJsonArray();
-            final List<String> javaMenus = new ArrayList<>(javaMenusJson.size());
-            for (JsonElement menuJson : javaMenusJson) {
-                javaMenus.add(Key.namespaced(menuJson.getAsString()));
+            this.javaMenus = HashBiMap.create(javaMenusJson.size());
+            for (int i = 0; i < javaMenusJson.size(); i++) {
+                this.javaMenus.put(Key.namespaced(javaMenusJson.get(i).getAsString()), i);
+            }
+
+            final JsonArray javaSlotDisplaysJson = javaViaMappingJson.getAsJsonArray("slot_displays");
+            this.javaSlotDisplays = HashBiMap.create(javaSlotDisplaysJson.size());
+            for (int i = 0; i < javaSlotDisplaysJson.size(); i++) {
+                this.javaSlotDisplays.put(Key.namespaced(javaSlotDisplaysJson.get(i).getAsString()), i);
             }
 
             final JsonObject bedrockToJavaContainersJson = this.readJson("custom/container_mappings.json");
@@ -565,11 +578,7 @@ public class BedrockMappingData extends MappingDataBase {
                     continue;
                 }
                 final String javaIdentifier = entry.getValue().getAsString();
-                final int javaId = javaMenus.indexOf(javaIdentifier);
-                if (javaId == -1) {
-                    throw new IllegalStateException("Unknown java menu: " + javaIdentifier);
-                }
-                this.bedrockToJavaContainers.put(bedrockContainerType, javaId);
+                this.bedrockToJavaContainers.put(bedrockContainerType, this.getJavaMenuId(javaIdentifier));
             }
             for (ContainerType containerType : ContainerType.values()) {
                 if (!this.bedrockToJavaContainers.containsKey(containerType) && !unmappedContainerTypes.contains(containerType)) {
@@ -725,6 +734,11 @@ public class BedrockMappingData extends MappingDataBase {
                     throw new IllegalStateException("Missing bedrock -> java effect mapping for " + bedrockIdentifier);
                 }
             }
+
+            Map<String, String> inverse = new java.util.HashMap<>(bedrockToJavaEffects.size());
+            bedrockToJavaEffects.forEach((k, v) -> inverse.put(v, k));
+            this.javaToBedrockEffects = inverse;
+
         }
 
         { // World Effects
@@ -1116,6 +1130,10 @@ public class BedrockMappingData extends MappingDataBase {
         return this.javaItems;
     }
 
+    public BiMap<String, CompoundTag> getBedrockItems() {
+        return this.bedrockItems;
+    }
+
     public Set<String> getBedrockBlockItems() {
         return this.bedrockBlockItems;
     }
@@ -1142,6 +1160,24 @@ public class BedrockMappingData extends MappingDataBase {
 
     public Map<ContainerType, Integer> getBedrockToJavaContainers() {
         return this.bedrockToJavaContainers;
+    }
+
+    public int getJavaMenuId(final String javaIdentifier) {
+        final String namespacedIdentifier = Key.namespaced(javaIdentifier);
+        final Integer javaMenuId = this.javaMenus.get(namespacedIdentifier);
+        if (javaMenuId == null) {
+            throw new IllegalStateException("Unknown java menu: " + namespacedIdentifier);
+        }
+        return javaMenuId;
+    }
+
+    public int getJavaSlotDisplayId(final String javaIdentifier) {
+        final String namespacedIdentifier = Key.namespaced(javaIdentifier);
+        final Integer javaSlotDisplayId = this.javaSlotDisplays.get(namespacedIdentifier);
+        if (javaSlotDisplayId == null) {
+            throw new IllegalStateException("Unknown java slot display: " + namespacedIdentifier);
+        }
+        return javaSlotDisplayId;
     }
 
     public BiMap<String, Integer> getBedrockEntities() {
@@ -1182,6 +1218,10 @@ public class BedrockMappingData extends MappingDataBase {
 
     public Map<String, String> getBedrockToJavaEffects() {
         return this.bedrockToJavaEffects;
+    }
+
+    public Map<String, String> getJavaToBedrockEffects() {
+        return this.javaToBedrockEffects;
     }
 
     public BiMap<String, Integer> getJavaSounds() {

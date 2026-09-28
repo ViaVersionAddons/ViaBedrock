@@ -23,13 +23,11 @@ import com.viaversion.viaversion.api.minecraft.data.StructuredData;
 import com.viaversion.viaversion.api.minecraft.data.StructuredDataKey;
 import com.viaversion.viaversion.api.minecraft.item.Item;
 import com.viaversion.viaversion.api.minecraft.item.data.Enchantments;
-import com.viaversion.viaversion.api.type.types.version.VersionedTypes;
 import net.raphimc.viabedrock.ViaBedrock;
 import net.raphimc.viabedrock.api.util.RegistryUtil;
 import net.raphimc.viabedrock.experimental.model.map.MapObject;
 import net.raphimc.viabedrock.experimental.storage.MapTracker;
 import net.raphimc.viabedrock.protocol.BedrockProtocol;
-import net.raphimc.viabedrock.protocol.data.JavaRegistries;
 import net.raphimc.viabedrock.protocol.data.enums.bedrock.generated.Enchant_Type;
 import net.raphimc.viabedrock.protocol.model.BedrockItem;
 
@@ -59,6 +57,14 @@ public class ExperimentalItemRewriter {
                 }
 
                 javaItem.dataContainer().set(StructuredDataKey.MAP_ID, map.getJavaId());
+            }
+
+            if (bedrockTag.get("display") instanceof CompoundTag displayTag) {
+                if (displayTag.get("Lore") instanceof ListTag<?> loreTag) {
+                    // TODO: Bedrock lore might be able to contain translatable components, but for now we just ignore that
+                    Tag[] tags = loreTag.getValue().toArray(new Tag[0]);
+                    javaItem.dataContainer().set(StructuredDataKey.LORE, tags);
+                }
             }
 
             if (bedrockTag.get("ench") instanceof ListTag<?> enchantments) {

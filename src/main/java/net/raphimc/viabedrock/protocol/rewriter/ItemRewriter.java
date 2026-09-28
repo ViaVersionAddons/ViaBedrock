@@ -73,6 +73,8 @@ public class ItemRewriter extends StoredObject {
     private final Type<BedrockItem> itemType;
     private final Type<BedrockItem> optionalItemType;
     private final Type<BedrockItem[]> itemArrayType;
+    private final Type<BedrockItem> itemInstanceType;
+    private final Type<BedrockItem[]> itemInstanceArrayType;
     private final Type<BedrockItem> newItemType;
     private final Type<BedrockItem> optionalNewItemType;
     private final Type<BedrockItem[]> newItemArrayType;
@@ -114,9 +116,12 @@ public class ItemRewriter extends StoredObject {
             }
         }
 
-        this.itemType = new BedrockItemType(this.items.getOrDefault("minecraft:shield", 0), this.blockItemValidBlockStates, false);
+        this.itemType = new BedrockItemType(this.items.getOrDefault("minecraft:shield", 0), this.blockItemValidBlockStates, false, true);
         this.optionalItemType = new OptionalType<>(this.itemType);
         this.itemArrayType = new ArrayType<>(this.itemType, BedrockTypes.UNSIGNED_VAR_INT);
+
+        this.itemInstanceType = new BedrockItemType(this.items.getOrDefault("minecraft:shield", 0), this.blockItemValidBlockStates, false, false);
+        this.itemInstanceArrayType = new ArrayType<>(this.itemInstanceType, BedrockTypes.UNSIGNED_VAR_INT);
         this.newItemType = new NetworkItemStackDescriptorType(this.items.getOrDefault("minecraft:shield", 0), this.blockItemValidBlockStates, false);
         this.optionalNewItemType = new OptionalType<>(this.newItemType);
         this.newItemArrayType = new ArrayType<>(this.newItemType, BedrockTypes.UNSIGNED_VAR_INT);
@@ -292,6 +297,25 @@ public class ItemRewriter extends StoredObject {
         return bedrockItems;
     }
 
+    public int maxStackSize(final BedrockItem bedrockItem) {
+        if (bedrockItem == null || bedrockItem.isEmpty()) {
+            return 64;
+        }
+
+        final String identifier = this.items.inverse().get(bedrockItem.identifier());
+        if (identifier == null) {
+            return 64;
+        }
+
+        final ItemDefinitions.ItemDefinition itemDefinition = this.user().get(ResourcePackStorage.class).getItems().get(identifier);
+        if (itemDefinition != null && itemDefinition.maxStackSize() != null) {
+            return Math.max(1, itemDefinition.maxStackSize());
+        }
+
+        CompoundTag item = BedrockProtocol.MAPPINGS.getBedrockItems().get(identifier);
+        return item.getInt("maxStackSize", 64);
+    }
+
     public BiMap<String, Integer> getItems() {
         return this.items;
     }
@@ -310,6 +334,14 @@ public class ItemRewriter extends StoredObject {
 
     public Type<BedrockItem[]> itemArrayType() {
         return this.itemArrayType;
+    }
+
+    public Type<BedrockItem> itemInstanceType() {
+        return this.itemInstanceType;
+    }
+
+    public Type<BedrockItem[]> itemInstanceArrayType() {
+        return this.itemInstanceArrayType;
     }
 
     public Type<BedrockItem> newItemType() {

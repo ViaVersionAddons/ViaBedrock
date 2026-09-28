@@ -165,6 +165,13 @@ public class BedrockItem implements Item {
         this.netId = netId;
     }
 
+    public int auxValue() {
+        boolean isEnchanted = this.tag != null && this.tag.contains("ench");
+        boolean isBlock = this.blockRuntimeId != 0;
+        int itemDataValues = (data + (isEnchanted ? 32768 : 0));
+        return (isBlock && id > 255 ? 255 - id : id) << 16 | itemDataValues;
+    }
+
     @Override
     public boolean isEmpty() {
         return this.id == 0 || this.id == -1 || this.amount <= 0;

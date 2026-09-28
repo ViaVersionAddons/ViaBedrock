@@ -603,7 +603,7 @@ public class WorldEffectPackets {
                 return;
             }
             switch (tag) {
-                case CustomBlockTags.CHEST, CustomBlockTags.TRAPPED_CHEST, CustomBlockTags.ENDER_CHEST, CustomBlockTags.SHULKER_BOX -> {
+                case CustomBlockTags.CHEST, CustomBlockTags.TRAPPED_CHEST, CustomBlockTags.ENDER_CHEST, CustomBlockTags.SHULKER_BOX, CustomBlockTags.BARREL -> {
                     if (type == 1) { // open / close
                         wrapper.write(Types.UNSIGNED_BYTE, (short) type); // event type
                         wrapper.write(Types.UNSIGNED_BYTE, (short) MathUtil.clamp(data, 0, 255)); // event data
