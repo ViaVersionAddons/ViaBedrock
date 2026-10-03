@@ -101,6 +101,16 @@ dependencies {
     toolImplementation "org.jsoup:jsoup:1.23.2"
     toolImplementation "org.ow2.asm:asm-tree:9.10.1"
     toolImplementation "net.lenni0451.commons:asm:1.9.2"
+
+    testImplementation "com.viaversion:viaversion-common:5.12.0"
+    testImplementation "com.google.guava:guava:33.7.1-jre"
+    testImplementation "io.netty:netty-handler:4.2.18.Final"
+    testImplementation "org.junit.jupiter:junit-jupiter:6.1.3"
+    testRuntimeOnly "org.junit.platform:junit-platform-launcher:6.1.3"
+}
+
+test {
+    useJUnitPlatform()
 }
 
 def registerToolTask(String name, String toolMainClass, String toolDescription) {

@@ -164,7 +164,7 @@ public abstract class Content {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream(4 * 1024 * 1024);
         final ZipOutputStream zipOutputStream = new ZipOutputStream(baos);
         zipOutputStream.setLevel(Deflater.BEST_SPEED);
-        for (String path : this.getFilesDeep("", "")) {
+        for (String path : this.getFilesDeep("", "").stream().sorted().toList()) {
             final ZipEntry entry = new ZipEntry(path);
             entry.setTime(0L);
             zipOutputStream.putNextEntry(entry);
