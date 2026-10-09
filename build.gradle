@@ -61,15 +61,15 @@ dependencies {
     compileOnly "com.viaversion:viaversion-common:5.12.0"
     compileOnly "org.yaml:snakeyaml:2.7"
     compileOnly "com.google.guava:guava:33.7.2-jre"
-    compileOnly "io.netty:netty-handler:4.2.18.Final"
+    compileOnly "io.netty:netty-handler:4.2.19.Final"
     compileOnly "com.google.code.gson:gson:2.14.0"
     compileOnly "org.cloudburstmc.netty:netty-transport-raknet:2.0.0.CR4-20260921.144528-1"
     compileOnly "org.cloudburstmc.netty:netty-transport-nethernet:2.0.0.CR4-20260921.144528-1"
 
-    api("io.netty:netty-codec-http:4.2.18.Final") {
+    api("io.netty:netty-codec-http:4.2.19.Final") {
         transitive = false
     }
-    api("io.netty:netty-codec-compression:4.2.18.Final") {
+    api("io.netty:netty-codec-compression:4.2.19.Final") {
         transitive = false
     }
     api "io.jsonwebtoken:jjwt-impl:0.13.0"
