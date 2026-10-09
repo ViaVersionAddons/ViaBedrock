@@ -20,33 +20,64 @@ package net.raphimc.viabedrock.protocol.provider.impl;
 import net.raphimc.viabedrock.ViaBedrock;
 import net.raphimc.viabedrock.api.resourcepack.ResourcePack;
 import net.raphimc.viabedrock.api.resourcepack.content.ZipContent;
+import net.raphimc.viabedrock.api.util.FileSystemUtil;
 import net.raphimc.viabedrock.protocol.provider.ResourcePackProvider;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.HexFormat;
 
 public class DiskResourcePackProvider extends ResourcePackProvider {
 
     @Override
-    public boolean has(final ResourcePack.Key key) {
-        return Files.isRegularFile(this.getPath(key));
+    public boolean has(final ResourcePack.Key key, final String contentIdentity) {
+        return contentIdentity != null && Files.isRegularFile(this.getPath(key, contentIdentity));
     }
 
     @Override
-    public ResourcePack load(final ResourcePack.Key key) throws IOException {
-        if (!this.has(key)) {
+    public ResourcePack load(final ResourcePack.Key key, final String contentIdentity) throws IOException {
+        if (!this.has(key, contentIdentity)) {
             throw new IOException("Resource pack not found");
         }
-        return new ResourcePack(new ZipContent(Files.readAllBytes(this.getPath(key))));
+        return new ResourcePack(new ZipContent(Files.readAllBytes(this.getPath(key, contentIdentity))));
     }
 
     @Override
-    public void save(final ResourcePack resourcePack) throws IOException {
-        Files.write(this.getPath(resourcePack.key()), resourcePack.content().toZip());
+    public ResourcePack loadAny(final ResourcePack.Key key) throws IOException {
+        return new ResourcePack(new ZipContent(Files.readAllBytes(this.getLegacyPath(key))));
     }
 
-    private Path getPath(final ResourcePack.Key key) {
+    @Override
+    public void save(final ResourcePack resourcePack, final String contentIdentity) throws IOException {
+        final byte[] bytes = resourcePack.content().toZip();
+        if (contentIdentity != null) {
+            Files.createDirectories(this.getSourcePath());
+            FileSystemUtil.writeAtomically(this.getPath(resourcePack.key(), contentIdentity), bytes);
+        }
+        FileSystemUtil.writeAtomically(this.getLegacyPath(resourcePack.key()), bytes);
+    }
+
+    private Path getPath(final ResourcePack.Key key, final String contentIdentity) {
+        try {
+            final MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            digest.update(key.toString().getBytes(StandardCharsets.UTF_8));
+            digest.update((byte) 0);
+            digest.update(contentIdentity.getBytes(StandardCharsets.UTF_8));
+            return this.getSourcePath().resolve(HexFormat.of().formatHex(digest.digest()) + ".mcpack");
+        } catch (final NoSuchAlgorithmException e) {
+            throw new IllegalStateException("SHA-256 is not available", e);
+        }
+    }
+
+    private Path getSourcePath() {
+        return ViaBedrock.getPlatform().getServerPacksFolder().toPath().resolve("source");
+    }
+
+    private Path getLegacyPath(final ResourcePack.Key key) {
         final Path basePath = ViaBedrock.getPlatform().getServerPacksFolder().toPath();
         final Path resolvedPath = basePath.resolve(key.toString() + ".mcpack").normalize();
         if (!resolvedPath.startsWith(basePath)) {

@@ -21,22 +21,25 @@ import com.viaversion.viaversion.libs.gson.JsonObject;
 import com.viaversion.viaversion.util.GsonUtil;
 import net.raphimc.viabedrock.api.util.JsonUtil;
 
+import org.apache.commons.io.output.UnsynchronizedByteArrayOutputStream;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
-import java.util.zip.Deflater;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 public abstract class Content {
 
-    private final Map<String, Map<String, String>> langCache = new HashMap<>();
+    private final Set<String> storedZipEntries = new HashSet<>();
+
+    private final Map<String, Map<String, String>> langCache = new ConcurrentHashMap<>();
 
     public abstract List<String> getFilesShallow(final String path, final String extension);
 
@@ -59,7 +62,24 @@ public abstract class Content {
 
     public abstract byte[] get(final String path);
 
-    public abstract boolean put(final String path, final byte[] data);
+    public final boolean put(final String path, final byte[] data) {
+        final boolean replaced = this.putBytes(path, data);
+        this.storedZipEntries.remove(path);
+        return replaced;
+    }
+
+    /** Stores an already compressed payload without another deflation pass when exporting the ZIP. */
+    public final boolean putStored(final String path, final byte[] data) {
+        final boolean replaced = this.putBytes(path, data);
+        this.storedZipEntries.add(path);
+        return replaced;
+    }
+
+    public final boolean isStored(final String path) {
+        return this.storedZipEntries.contains(path);
+    }
+
+    protected abstract boolean putBytes(final String path, final byte[] data);
 
     public String getString(final String path) {
         final byte[] bytes = this.get(path);
@@ -157,22 +177,22 @@ public abstract class Content {
     }
 
     public void copyFrom(final Content content, final String sourcePath, final String targetPath) {
-        this.put(targetPath, content.get(sourcePath));
+        if (content.isStored(sourcePath)) {
+            this.putStored(targetPath, content.get(sourcePath));
+        } else {
+            this.put(targetPath, content.get(sourcePath));
+        }
     }
 
     public byte[] toZip() throws IOException {
-        final ByteArrayOutputStream baos = new ByteArrayOutputStream(4 * 1024 * 1024);
-        final ZipOutputStream zipOutputStream = new ZipOutputStream(baos);
-        zipOutputStream.setLevel(Deflater.BEST_SPEED);
-        for (String path : this.getFilesDeep("", "")) {
-            final ZipEntry entry = new ZipEntry(path);
-            entry.setTime(0L);
-            zipOutputStream.putNextEntry(entry);
-            zipOutputStream.write(this.get(path));
-            zipOutputStream.closeEntry();
-        }
-        zipOutputStream.close();
-        return baos.toByteArray();
+        final var output = UnsynchronizedByteArrayOutputStream.builder().setBufferSize(4 * 1024 * 1024).get();
+        this.writeZip(output);
+        return output.toByteArray();
+    }
+
+    /** Writes the deterministic archive and closes the supplied output. */
+    public void writeZip(final OutputStream output) throws IOException {
+        ResourcePackZipWriter.write(this, output);
     }
 
     public static class LazyImage {

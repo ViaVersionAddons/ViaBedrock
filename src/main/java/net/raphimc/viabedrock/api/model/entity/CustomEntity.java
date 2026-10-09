@@ -179,7 +179,7 @@ public class CustomEntity extends Entity {
             final StructuredItem item = new StructuredItem(BedrockProtocol.MAPPINGS.getJavaItems().get("minecraft:paper"), 1, data);
             javaEntityData.add(new EntityData(partEntity.getJavaEntityDataIndex(EntityDataFields.ITEM_STACK), VersionedTypes.V26_3.entityDataTypes.itemType, item));
 
-            final float scale = (float) resourcePackStorage.getConverterData().get("ce_" + converterKey + "_scale");
+            final float scale = ((Number) resourcePackStorage.getConverterData().get("ce_" + converterKey + "_scale")).floatValue();
             javaEntityData.add(new EntityData(partEntity.getJavaEntityDataIndex(EntityDataFields.SCALE), VersionedTypes.V26_3.entityDataTypes.vector3FType, new Vector3f(scale, scale, scale)));
             javaEntityData.add(new EntityData(partEntity.getJavaEntityDataIndex(EntityDataFields.TRANSLATION), VersionedTypes.V26_3.entityDataTypes.vector3FType, new Vector3f(0F, scale * 0.5F, 0F)));
 
