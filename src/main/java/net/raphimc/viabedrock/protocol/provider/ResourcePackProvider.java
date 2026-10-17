@@ -22,10 +22,12 @@ import net.raphimc.viabedrock.api.resourcepack.ResourcePack;
 
 public abstract class ResourcePackProvider implements Provider {
 
-    public abstract boolean has(final ResourcePack.Key key);
+    public abstract boolean has(final ResourcePack.Key key, final String contentIdentity);
 
-    public abstract ResourcePack load(final ResourcePack.Key key) throws Exception;
+    public abstract ResourcePack load(final ResourcePack.Key key, final String contentIdentity) throws Exception;
 
-    public abstract void save(final ResourcePack resourcePack) throws Exception;
+    public abstract ResourcePack loadAny(final ResourcePack.Key key) throws Exception;
+
+    public abstract void save(final ResourcePack resourcePack, final String contentIdentity) throws Exception;
 
 }

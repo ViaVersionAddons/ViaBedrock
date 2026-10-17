@@ -27,11 +27,12 @@ import net.raphimc.viabedrock.api.resourcepack.content.ZipContent;
 import net.raphimc.viabedrock.api.resourcepack.http.BedrockPackDownloader;
 import net.raphimc.viabedrock.protocol.BedrockProtocol;
 import net.raphimc.viabedrock.protocol.ServerboundBedrockPackets;
-import net.raphimc.viabedrock.protocol.data.enums.bedrock.generated.ResourcePackResponse;
+import net.raphimc.viabedrock.protocol.packet.ResourcePackClientResponse;
 import net.raphimc.viabedrock.protocol.provider.ResourcePackProvider;
-import net.raphimc.viabedrock.protocol.types.BedrockTypes;
 
 import java.net.URL;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -48,7 +49,7 @@ public class ResourcePackLoadStateTracker extends StoredObject {
         return thread;
     }, null, true);
     private final CompletableFuture<Void> loadFuture = new CompletableFuture<>();
-    private boolean javaClientAccepted;
+    private volatile boolean stackReceived;
 
     public ResourcePackLoadStateTracker(final UserConnection user, final ResourcePackLoadStateTracker.Info[] infos) {
         super(user);
@@ -64,7 +65,8 @@ public class ResourcePackLoadStateTracker extends StoredObject {
 
     public void addRemoteResourcePack(final ResourcePack resourcePack) {
         try {
-            Via.getManager().getProviders().get(ResourcePackProvider.class).save(resourcePack);
+            final Info info = this.requests.get(resourcePack.key());
+            Via.getManager().getProviders().get(ResourcePackProvider.class).save(resourcePack, info != null ? info.cacheIdentity() : null);
         } catch (final Throwable e) {
             ViaBedrock.getPlatform().getLogger().log(Level.WARNING, "Failed to save resource pack: " + resourcePack.key(), e);
         }
@@ -84,15 +86,19 @@ public class ResourcePackLoadStateTracker extends StoredObject {
     }
 
     public CompletableFuture<Void> loadRequestedResourcePacks() {
+        if (this.requests.isEmpty()) {
+            this.loadFuture.complete(null);
+            return this.loadFuture;
+        }
         final List<Callable<Void>> asyncTasks = new ArrayList<>();
         final List<ResourcePack.Key> downloadList = Collections.synchronizedList(new ArrayList<>());
         for (Info info : this.requests.values()) {
             if (BedrockProtocol.MAPPINGS.getBedrockResourcePacks().containsKey(info.key())) {
                 this.addLocalResourcePack(BedrockProtocol.MAPPINGS.getBedrockResourcePacks().get(info.key()));
-            } else if (Via.getManager().getProviders().get(ResourcePackProvider.class).has(info.key())) {
+            } else if (Via.getManager().getProviders().get(ResourcePackProvider.class).has(info.key(), info.cacheIdentity())) {
                 asyncTasks.add(() -> {
                     try {
-                        this.addLocalResourcePack(Via.getManager().getProviders().get(ResourcePackProvider.class).load(info.key()));
+                        this.addLocalResourcePack(Via.getManager().getProviders().get(ResourcePackProvider.class).load(info.key(), info.cacheIdentity()));
                     } catch (final Throwable e) {
                         if (!(e.getCause() instanceof InterruptedException)) {
                             ViaBedrock.getPlatform().getLogger().log(Level.WARNING, "Failed to load resource pack: " + info.key(), e);
@@ -132,9 +138,7 @@ public class ResourcePackLoadStateTracker extends StoredObject {
             if (!downloadList.isEmpty()) {
                 ViaBedrock.getPlatform().getLogger().log(Level.INFO, "Downloading " + downloadList.size() + " resource packs over the game protocol");
                 final PacketWrapper resourcePackClientResponse = PacketWrapper.create(ServerboundBedrockPackets.RESOURCE_PACK_CLIENT_RESPONSE, this.user());
-                resourcePackClientResponse.write(BedrockTypes.UNSIGNED_VAR_INT, ResourcePackResponse.Downloading.getValue()); // status
-                resourcePackClientResponse.write(BedrockTypes.STRING, "downloading"); // #blameMojang
-                resourcePackClientResponse.write(BedrockTypes.SHORT_LE_STRING_ARRAY, downloadList.stream().map(ResourcePack.Key::toString).toArray(String[]::new)); // downloading packs
+                ResourcePackClientResponse.writeDownloading(resourcePackClientResponse, downloadList.stream().map(ResourcePack.Key::toString).toArray(String[]::new));
                 resourcePackClientResponse.scheduleSendToServer(BedrockProtocol.class);
             } else {
                 this.loadFuture.complete(null);
@@ -148,16 +152,31 @@ public class ResourcePackLoadStateTracker extends StoredObject {
 
     public void loadUnrequestedResourcePacks(final ResourcePack.Key[] keys) {
         for (ResourcePack.Key key : keys) {
+            if (this.resourcePacks.containsKey(key)) {
+                continue;
+            }
             if (BedrockProtocol.MAPPINGS.getBedrockResourcePacks().containsKey(key)) {
                 this.resourcePacks.put(key, BedrockProtocol.MAPPINGS.getBedrockResourcePacks().get(key));
-            } else if (Via.getManager().getProviders().get(ResourcePackProvider.class).has(key)) {
+            } else {
                 try {
-                    this.resourcePacks.put(key, Via.getManager().getProviders().get(ResourcePackProvider.class).load(key));
+                    this.resourcePacks.put(key, Via.getManager().getProviders().get(ResourcePackProvider.class).loadAny(key));
                 } catch (final Throwable e) {
-                    ViaBedrock.getPlatform().getLogger().log(Level.WARNING, "Failed to load resource pack: " + key, e);
+                    ViaBedrock.getPlatform().getLogger().log(Level.FINE, "No cached resource pack for: " + key, e);
                 }
             }
         }
+    }
+
+    public CompletableFuture<Void> loadedFuture() {
+        return this.loadFuture;
+    }
+
+    public void markStackReceived() {
+        this.stackReceived = true;
+    }
+
+    public boolean hasReceivedStack() {
+        return this.stackReceived;
     }
 
     @Override
@@ -165,15 +184,20 @@ public class ResourcePackLoadStateTracker extends StoredObject {
         this.executor.shutdownNow();
     }
 
-    public boolean hasJavaClientAccepted() {
-        return this.javaClientAccepted;
-    }
-
-    public void setJavaClientAccepted() {
-        this.javaClientAccepted = true;
-    }
-
     public record Info(ResourcePack.Key key, byte[] contentKey, String contentId, URL httpUrl) {
+
+        public String cacheIdentity() {
+            if (this.contentId.isEmpty()) {
+                return null;
+            }
+            try {
+                final MessageDigest digest = MessageDigest.getInstance("SHA-256");
+                return this.contentId + ':' + HexFormat.of().formatHex(digest.digest(this.contentKey));
+            } catch (final NoSuchAlgorithmException e) {
+                throw new IllegalStateException("SHA-256 is not available", e);
+            }
+        }
+
     }
 
 }

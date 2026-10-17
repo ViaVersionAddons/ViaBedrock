@@ -27,24 +27,42 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class InMemoryResourcePackProvider extends ResourcePackProvider {
 
-    private final Map<String, byte[]> resourcePacks = new ConcurrentHashMap<>();
+    private final Map<CacheKey, byte[]> resourcePacks = new ConcurrentHashMap<>();
+    private final Map<ResourcePack.Key, byte[]> latestPacks = new ConcurrentHashMap<>();
 
     @Override
-    public boolean has(final ResourcePack.Key key) {
-        return this.resourcePacks.containsKey(key.toString());
+    public boolean has(final ResourcePack.Key key, final String contentIdentity) {
+        return contentIdentity != null && this.resourcePacks.containsKey(new CacheKey(key, contentIdentity));
     }
 
     @Override
-    public ResourcePack load(final ResourcePack.Key key) throws IOException {
-        if (!this.has(key)) {
+    public ResourcePack load(final ResourcePack.Key key, final String contentIdentity) throws IOException {
+        final byte[] bytes = this.resourcePacks.get(new CacheKey(key, contentIdentity));
+        if (bytes == null) {
             throw new IOException("Pack not found");
         }
-        return new ResourcePack(new ZipContent(this.resourcePacks.get(key.toString())));
+        return new ResourcePack(new ZipContent(bytes));
     }
 
     @Override
-    public void save(final ResourcePack resourcePack) throws IOException {
-        this.resourcePacks.put(resourcePack.key().toString(), resourcePack.content().toZip());
+    public ResourcePack loadAny(final ResourcePack.Key key) throws IOException {
+        final byte[] bytes = this.latestPacks.get(key);
+        if (bytes == null) {
+            throw new IOException("Pack not found");
+        }
+        return new ResourcePack(new ZipContent(bytes));
+    }
+
+    @Override
+    public void save(final ResourcePack resourcePack, final String contentIdentity) throws IOException {
+        final byte[] bytes = resourcePack.content().toZip();
+        if (contentIdentity != null) {
+            this.resourcePacks.put(new CacheKey(resourcePack.key(), contentIdentity), bytes);
+        }
+        this.latestPacks.put(resourcePack.key(), bytes);
+    }
+
+    private record CacheKey(ResourcePack.Key key, String contentIdentity) {
     }
 
 }
