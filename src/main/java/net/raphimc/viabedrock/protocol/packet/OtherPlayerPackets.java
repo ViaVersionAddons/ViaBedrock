@@ -150,9 +150,9 @@ public final class OtherPlayerPackets {
                 entity.setRotation(new Position3f(rotation.x(), entity.rotation().y(), entity.rotation().z()));
                 wrapper.setPacketType(ClientboundPackets26_3.MOVE_ENTITY_ROT);
                 wrapper.write(Types.VAR_INT, entity.javaId()); // entity id
+                wrapper.write(Types.BOOLEAN, entity.isOnGround()); // on ground
                 wrapper.write(Types.BYTE, MathUtil.float2Byte(entity.rotation().y())); // yaw
                 wrapper.write(Types.BYTE, MathUtil.float2Byte(rotation.x())); // pitch
-                wrapper.write(Types.BOOLEAN, entity.isOnGround()); // on ground
                 return;
             }
 
