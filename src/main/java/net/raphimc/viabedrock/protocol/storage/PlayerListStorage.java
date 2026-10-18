@@ -19,6 +19,9 @@ package net.raphimc.viabedrock.protocol.storage;
 
 import com.viaversion.viaversion.api.connection.StorableObject;
 import com.viaversion.viaversion.util.Pair;
+import net.raphimc.viabedrock.protocol.data.enums.bedrock.generated.GameType;
+import net.raphimc.viabedrock.protocol.data.enums.java.generated.GameMode;
+import net.raphimc.viabedrock.protocol.rewriter.GameTypeRewriter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,12 +31,41 @@ public class PlayerListStorage implements StorableObject {
 
     private final Map<UUID, Pair<Long, String>> playerList = new HashMap<>();
 
+    private final Map<UUID, PlayerGameType> gameTypes = new HashMap<>();
+
     public Pair<Long, String> addPlayer(final UUID uuid, final long entityUniqueId, final String name) {
-        return this.playerList.put(uuid, new Pair<>(entityUniqueId, name));
+        final Pair<Long, String> previous = this.playerList.put(uuid, new Pair<>(entityUniqueId, name));
+        final PlayerGameType gameType = this.gameTypes.get(uuid);
+        if (gameType != null && gameType.entityUniqueId != entityUniqueId) {
+            this.gameTypes.remove(uuid);
+        }
+        return previous;
     }
 
     public Pair<Long, String> removePlayer(final UUID uuid) {
+        this.gameTypes.remove(uuid);
         return this.playerList.remove(uuid);
+    }
+
+    public void setGameType(final UUID uuid, final long entityUniqueId, final GameType gameType) {
+        this.gameTypes.put(uuid, new PlayerGameType(entityUniqueId, gameType));
+    }
+
+    public GameMode getJavaGameMode(final UUID uuid, final GameType levelGameType) {
+        final PlayerGameType gameType = this.gameTypes.get(uuid);
+        return gameType == null ? GameMode.SURVIVAL : GameTypeRewriter.getEffectiveGameMode(gameType.value, levelGameType);
+    }
+
+    public Map<UUID, GameMode> getGameModeUpdates(final GameType previousDefault, final GameType nextDefault) {
+        final Map<UUID, GameMode> updates = new HashMap<>();
+        this.gameTypes.forEach((uuid, gameType) -> {
+            final GameMode previous = GameTypeRewriter.getEffectiveGameMode(gameType.value, previousDefault);
+            final GameMode next = GameTypeRewriter.getEffectiveGameMode(gameType.value, nextDefault);
+            if (previous != next) {
+                updates.put(uuid, next);
+            }
+        });
+        return updates;
     }
 
     public boolean containsPlayer(final UUID uuid) {
@@ -52,6 +84,9 @@ public class PlayerListStorage implements StorableObject {
         }
 
         return null;
+    }
+
+    private record PlayerGameType(long entityUniqueId, GameType value) {
     }
 
 }
