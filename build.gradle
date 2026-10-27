@@ -62,7 +62,7 @@ dependencies {
     compileOnly "org.yaml:snakeyaml:2.7"
     compileOnly "com.google.guava:guava:33.7.2-jre"
     compileOnly "io.netty:netty-handler:4.2.19.Final"
-    compileOnly "com.google.code.gson:gson:2.14.0"
+    compileOnly "com.google.code.gson:gson:2.15.0"
     compileOnly "org.cloudburstmc.netty:netty-transport-raknet:2.0.0.CR4-20260921.144528-1"
     compileOnly "org.cloudburstmc.netty:netty-transport-nethernet:2.0.0.CR4-20260921.144528-1"
 
