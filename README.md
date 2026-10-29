@@ -45,7 +45,7 @@ Here is an overview of the current and planned features in ViaBedrock.
 - [ ] Client-Authoritative Inventory
 - [ ] Server-Authoritative Inventory
 - [x] Basic item data translation
-- [ ] Block breaking
+- [x] Basic block breaking
 - [x] Basic block placing
 - [x] Basic item use
 - [x] Respawning and dimension switching
