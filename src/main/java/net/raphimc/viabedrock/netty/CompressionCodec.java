@@ -95,7 +95,7 @@ public class CompressionCodec extends ByteToMessageCodec<ByteBuf> {
 
         final CompressionAlgorithm compressionAlgorithm = this.getCompressionAlgorithm(algorithm);
         if (compressionAlgorithm instanceof NoopCompression) {
-            out.add(in.retain());
+            out.add(in.readRetainedSlice(in.readableBytes()));
         } else {
             final ByteBuf uncompressedData = ctx.alloc().buffer();
             compressionAlgorithm.decompress(in, uncompressedData); // Bedrock client would drop packets with invalid data, but this would be too insane to do
