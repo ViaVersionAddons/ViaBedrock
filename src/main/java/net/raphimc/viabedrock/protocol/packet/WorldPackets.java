@@ -252,7 +252,7 @@ public final class WorldPackets {
                                 section.addPalette(PaletteType.BIOMES, new BedrockBiomeArray(biomeData));
                             }
                         } else {
-                            for (int i = 0; i < sectionCount; i++) {
+                            for (int i = 0; i < sections.length; i++) {
                                 BedrockDataPalette biomePalette = BedrockTypes.RUNTIME_DATA_PALETTE.read(dataBuf); // biome palette
                                 if (biomePalette == null) {
                                     if (i == 0) {
@@ -288,6 +288,7 @@ public final class WorldPackets {
             final boolean cachingEnabled = wrapper.read(Types.BOOLEAN); // caching enabled
             final Long[] blobs = wrapper.read(BedrockTypes.LONG_ARRAY); // blob ids (always present in 1.26.40)
             final byte[] data = wrapper.read(BedrockTypes.BYTE_ARRAY); // data
+            wrapper.read(Types.BOOLEAN); // biome update
             if (cachingEnabled) {
                 final int expectedLength = requestSubChunks ? 1 : sectionCount + 1;
                 if (blobs.length != expectedLength) {

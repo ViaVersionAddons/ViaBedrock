@@ -156,6 +156,7 @@ public enum DisconnectFailReason {
     EditorNotAllowed(147),
     MissingStructureData(148),
     UnsupportedTransport(149),
+    SubClientLoginNotBound(150),
     ;
 
     private static final Int2ObjectMap<DisconnectFailReason> BY_VALUE = new Int2ObjectOpenHashMap<>();

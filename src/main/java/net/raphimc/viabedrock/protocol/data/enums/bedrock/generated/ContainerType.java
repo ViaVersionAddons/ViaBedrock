@@ -45,6 +45,7 @@ public enum ContainerType {
     CHEST_BOAT(34),
     DECORATED_POT(35),
     CRAFTER(36),
+    RESERVED_CONTAINER_TYPE(38),
     ;
 
     private static final Int2ObjectMap<ContainerType> BY_VALUE = new Int2ObjectOpenHashMap<>();

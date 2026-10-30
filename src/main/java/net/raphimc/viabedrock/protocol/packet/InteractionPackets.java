@@ -71,7 +71,8 @@ public final class InteractionPackets {
                     ItemReleaseActionType.Release,
                     inventory.getSelectedHotbarSlot(),
                     inventory.getSelectedHotbarItem(),
-                    wrapper.user().get(EntityTracker.class).getClientPlayer().position()
+                    wrapper.user().get(EntityTracker.class).getClientPlayer().position(),
+                    HandSlot.Mainhand
                 )
             );
             final PacketWrapper transactionPacket = PacketWrapper.create(ServerboundBedrockPackets.INVENTORY_TRANSACTION, wrapper.user());

@@ -165,6 +165,8 @@ public enum ActorType {
     CamelHusk(70552),
     SulfurCube(921),
     Cushion(154),
+    Frostbite(199579),
+    IceBall(4194460),
     ;
 
     private static final Int2ObjectMap<ActorType> BY_VALUE = new Int2ObjectOpenHashMap<>();

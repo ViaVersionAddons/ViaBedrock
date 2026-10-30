@@ -381,6 +381,7 @@ public final class ClientPlayerPackets {
             wrapper.write(BedrockTypes.UNSIGNED_VAR_LONG, entity.runtimeId()); // entity runtime id
             wrapper.write(BedrockTypes.VAR_INT, ItemUseOnActorActionType.Attack.getValue()); // action type
             wrapper.write(BedrockTypes.VAR_INT, (int) inventoryContainer.getSelectedHotbarSlot()); // hotbar slot
+            wrapper.write(Types.BYTE, (byte) HandSlot.Mainhand.getValue()); // hand slot
             wrapper.write(wrapper.user().get(ItemRewriter.class).newItemType(), inventoryContainer.getSelectedHotbarItem()); // held item
             wrapper.write(BedrockTypes.POSITION_3F, entityTracker.getClientPlayer().position()); // player position
             wrapper.write(BedrockTypes.POSITION_3F, Position3f.ZERO); // click position
@@ -412,6 +413,7 @@ public final class ClientPlayerPackets {
             wrapper.write(BedrockTypes.UNSIGNED_VAR_LONG, entity.runtimeId()); // entity runtime id
             wrapper.write(BedrockTypes.VAR_INT, ItemUseOnActorActionType.Interact.getValue()); // action type
             wrapper.write(BedrockTypes.VAR_INT, (int) inventoryContainer.getSelectedHotbarSlot()); // hotbar slot
+            wrapper.write(Types.BYTE, (byte) HandSlot.Mainhand.getValue()); // hand slot
             wrapper.write(wrapper.user().get(ItemRewriter.class).newItemType(), inventoryContainer.getSelectedHotbarItem()); // held item
             wrapper.write(BedrockTypes.POSITION_3F, entityTracker.getClientPlayer().position()); // player position
             final Vector3d location = wrapper.read(Types.LOW_PRECISION_VECTOR); // location
@@ -620,7 +622,8 @@ public final class ClientPlayerPackets {
             wrapper.write(Types.UNSIGNED_BYTE, (short) AnimatePacketPayload_Action.Swing.getValue()); // action
             wrapper.write(BedrockTypes.UNSIGNED_VAR_LONG, clientPlayer.runtimeId()); // entity runtime id
             wrapper.write(BedrockTypes.FLOAT_LE, 0F); // data
-            wrapper.write(BedrockTypes.OPTIONAL_STRING, ActorSwingSource.Attack.name().toLowerCase(Locale.ROOT)); // swing source // TODO: 1.21.130
+            wrapper.write(BedrockTypes.OPTIONAL_STRING, ActorSwingSource.Attack.name().toLowerCase(Locale.ROOT)); // swing source
+            wrapper.write(Types.BYTE, (byte) HandSlot.Mainhand.getValue()); // hand slot TODO: Offhand support
 
             if (clientPlayer.blockBreakingInfo() != null) {
                 if (!gameSession.isBlockBreakingServerAuthoritative()) {

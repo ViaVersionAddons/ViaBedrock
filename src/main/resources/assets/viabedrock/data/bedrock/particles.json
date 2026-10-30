@@ -74,6 +74,8 @@
   "minecraft:firefly_particle",
   "minecraft:fish_hook_particle",
   "minecraft:fish_pos_particle",
+  "minecraft:freezing_ambient",
+  "minecraft:freezing_emitter",
   "minecraft:geyser_base",
   "minecraft:geyser_plume",
   "minecraft:geyser_poof",

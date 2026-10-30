@@ -154,7 +154,8 @@ public class ClientPlayerEntity extends PlayerEntity {
         animate.write(Types.UNSIGNED_BYTE, (short) AnimatePacketPayload_Action.Swing.getValue()); // action
         animate.write(BedrockTypes.UNSIGNED_VAR_LONG, this.runtimeId); // entity runtime id
         animate.write(BedrockTypes.FLOAT_LE, 0F); // data
-        animate.write(BedrockTypes.OPTIONAL_STRING, ActorSwingSource.Attack.name().toLowerCase(Locale.ROOT)); // swing source // TODO: 1.21.130
+        animate.write(BedrockTypes.OPTIONAL_STRING, ActorSwingSource.Attack.name().toLowerCase(Locale.ROOT)); // swing source
+        animate.write(Types.BYTE, (byte) HandSlot.Mainhand.getValue()); // hand slot
         animate.sendToServer(BedrockProtocol.class);
     }
 

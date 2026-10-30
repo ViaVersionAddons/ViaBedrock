@@ -53,8 +53,8 @@ public enum CurrentCmdVersion {
     LocateStructureOutput(42),
     PostBlockFlattening(43),
     TestForBlockCommandDoesNotIgnoreBlockState(44),
-    Count(55),
-    Latest(54),
+    Count(56),
+    Latest(55),
     ;
 
     private static final Int2ObjectMap<CurrentCmdVersion> BY_VALUE = new Int2ObjectOpenHashMap<>();

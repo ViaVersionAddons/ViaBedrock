@@ -20,7 +20,7 @@ package net.raphimc.viabedrock.protocol.model;
 import java.awt.image.BufferedImage;
 import java.util.List;
 
-public record SkinData(String skinId, String playFabId, String skinResourcePatch, BufferedImage skinData, List<AnimationData> animations, BufferedImage capeData,
+public record SkinData(String skinId, String skinResourcePatch, BufferedImage skinData, List<AnimationData> animations, BufferedImage capeData,
                        String geometryData, String geometryDataEngineVersion, String animationData, boolean premium, boolean persona, boolean capeOnClassic, boolean primaryUser,
                        String capeId, String fullSkinId, String armSize, String skinColor, List<PersonaPieceData> personaPieces, List<PersonaPieceTintData> tintColors,
                        boolean overridingPlayerAppearance) {

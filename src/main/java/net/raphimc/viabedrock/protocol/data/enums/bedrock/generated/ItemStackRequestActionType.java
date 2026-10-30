@@ -22,8 +22,9 @@ public enum ItemStackRequestActionType {
     CraftRecipeOptional(15),
     CraftRepairAndDisenchant(16),
     CraftLoom(17),
-    CraftNonImplemented(18),
-    CraftResults(19),
+    CraftReservedAction(18),
+    CraftNonImplemented(19),
+    CraftResults(20),
     ;
 
     private static final Int2ObjectMap<ItemStackRequestActionType> BY_VALUE = new Int2ObjectOpenHashMap<>();

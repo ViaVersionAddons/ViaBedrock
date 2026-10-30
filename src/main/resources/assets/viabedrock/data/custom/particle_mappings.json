@@ -651,5 +651,7 @@
   "minecraft:geyser_poof": "minecraft:geyser_poof",
   "minecraft:orange_poplar_leaves_particle": null,
   "minecraft:red_poplar_leaves_particle": null,
-  "minecraft:yellow_poplar_leaves_particle": null
+  "minecraft:yellow_poplar_leaves_particle": null,
+  "minecraft:freezing_ambient": "minecraft:snowflake",
+  "minecraft:freezing_emitter": "minecraft:snowflake"
 }

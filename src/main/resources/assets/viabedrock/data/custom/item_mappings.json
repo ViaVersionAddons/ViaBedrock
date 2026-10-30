@@ -16203,5 +16203,33 @@
         "java_id": "minecraft:yellow_wool_stairs"
       }
     }
+  },
+  "minecraft:disc_press": {
+    "block": {
+      "minecraft:disc_press": {
+        "java_id": "minecraft:stonecutter"
+      }
+    }
+  },
+  "minecraft:frostbite_spawn_egg": {
+    "meta": {
+      "": {
+        "java_id": "minecraft:stray_spawn_egg"
+      }
+    }
+  },
+  "minecraft:ice_crystal": {
+    "block": {
+      "minecraft:ice_crystal": {
+        "java_id": "minecraft:amethyst_cluster"
+      }
+    }
+  },
+  "minecraft:icicle": {
+    "block": {
+      "minecraft:icicle": {
+        "java_id": "minecraft:pointed_dripstone"
+      }
+    }
   }
 }

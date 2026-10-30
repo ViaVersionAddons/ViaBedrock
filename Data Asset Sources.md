@@ -11,7 +11,7 @@ The Java data generator and its setup steps are in [generator/README.md](generat
 
 ### data/bedrock/biomes.json
 
-[axolotl-pm/BedrockData](https://github.com/axolotl-pm/BedrockData/blob/4d9723bc0c4ca86e679d753751574399334ceca4/biome_id_map.json)
+[axolotl-pm/BedrockData](https://github.com/axolotl-pm/BedrockData/blob/aeb5f24894f1873dde6f7b4f39490ad85ce59094/biome_id_map.json)
 
 ### data/bedrock/block_id_meta_to_1_12_0_nbt.bin
 
@@ -23,7 +23,7 @@ The Java data generator and its setup steps are in [generator/README.md](generat
 
 ### data/bedrock/block_palette.nbt
 
-[GeyserMC/Geyser](https://github.com/GeyserMC/Geyser/blob/50115039af4cd92e50545075d3a13eea6880cf88/core/src/main/resources/bedrock/block_palette.26_50.nbt)
+[GeyserMC/Geyser](https://github.com/GeyserMC/Geyser/blob/fd35d5918ae8e8b6c05d91179315fa00413c1f65/core/src/main/resources/bedrock/block_palette.26_60.nbt)
 
 ### data/bedrock/block_sounds.json
 
@@ -61,7 +61,7 @@ This file has been generated using `./gradlew generateBedrockParticleList` from 
 
 ### data/bedrock/runtime_item_states.json
 
-[CloudburstMC/Data](https://github.com/CloudburstMC/Data/blob/a8a4341d7763d6eb8547cff3ca46b4153d60163d/runtime_item_states.json)
+[CloudburstMC/Data](https://github.com/CloudburstMC/Data/blob/293c848098cc636a2758937fb6610b8bed1f12c5/runtime_item_states.json)
 
 ### data/bedrock/sounds.json
 

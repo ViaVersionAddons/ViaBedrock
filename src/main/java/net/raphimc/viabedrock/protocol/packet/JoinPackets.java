@@ -230,6 +230,7 @@ public final class JoinPackets {
                 final EditorWorldType editorWorldType = EditorWorldType.getByValue(wrapper.read(BedrockTypes.VAR_INT)); // world editor type
                 wrapper.read(Types.BOOLEAN); // created in world editor
                 wrapper.read(Types.BOOLEAN); // exported from world editor
+                wrapper.read(Types.BYTE); // editor migration version
                 final int currentTime = wrapper.read(BedrockTypes.VAR_INT); // day cycle stop time
                 wrapper.read(BedrockTypes.UNSIGNED_VAR_INT); // education edition offers
                 wrapper.read(Types.BOOLEAN); // education features enabled
@@ -439,6 +440,8 @@ public final class JoinPackets {
                     wrapper.read(BedrockTypes.VAR_INT); // dimension type
                     wrapper.read(BedrockTypes.UUID); // pack id
                     wrapper.read(BedrockTypes.STRING); // default biome
+                    wrapper.read(BedrockTypes.VAR_INT); // cloud height
+                    wrapper.read(Types.BOOLEAN); // render clouds
                     if (dimensionIdentifier.equals(Dimension.OVERWORLD.getKey())) { // Bedrock client currently only supports overworld
                         gameSession.putBedrockDimensionDefinition(dimensionIdentifier, new IntIntImmutablePair(minimumHeight, maximumHeight));
                     }

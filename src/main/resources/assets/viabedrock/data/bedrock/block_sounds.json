@@ -565,6 +565,8 @@
   "minecraft:horn_coral_fan": "stone",
   "minecraft:horn_coral_wall_fan": "stone",
   "minecraft:ice": "glass",
+  "minecraft:ice_crystal": "ice_crystal",
+  "minecraft:icicle": "icicle",
   "minecraft:infested_chiseled_stone_bricks": "stone",
   "minecraft:infested_cobblestone": "stone",
   "minecraft:infested_cracked_stone_bricks": "stone",

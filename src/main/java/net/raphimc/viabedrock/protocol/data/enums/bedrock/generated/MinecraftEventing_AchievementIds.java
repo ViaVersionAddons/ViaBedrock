@@ -88,6 +88,7 @@ public enum MinecraftEventing_AchievementIds {
     MonsterHunter(124),
     Diamonds(125),
     PlethoraOfCats(126),
+    WhatGoesAroundComesAround(127),
     ;
 
     private static final Int2ObjectMap<MinecraftEventing_AchievementIds> BY_VALUE = new Int2ObjectOpenHashMap<>();

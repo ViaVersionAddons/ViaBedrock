@@ -37,5 +37,6 @@
   "SMITHING_TABLE": "minecraft:smithing",
   "CHEST_BOAT": "minecraft:generic_9x3",
   "DECORATED_POT": null,
-  "CRAFTER": "minecraft:crafter_3x3"
+  "CRAFTER": "minecraft:crafter_3x3",
+  "RESERVED_CONTAINER_TYPE": null
 }

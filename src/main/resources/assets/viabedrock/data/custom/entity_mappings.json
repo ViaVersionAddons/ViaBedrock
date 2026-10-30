@@ -135,5 +135,7 @@
   "minecraft:zombie_nautilus": "minecraft:zombie_nautilus",
   "minecraft:zombie_pigman": "minecraft:zombified_piglin",
   "minecraft:zombie_villager": "minecraft:zombie_villager",
-  "minecraft:zombie_villager_v2": "minecraft:zombie_villager"
+  "minecraft:zombie_villager_v2": "minecraft:zombie_villager",
+  "minecraft:frostbite": "minecraft:zombie",
+  "minecraft:ice_ball": "minecraft:snowball"
 }

@@ -6,7 +6,6 @@ import com.viaversion.viaversion.libs.fastutil.ints.Int2ObjectOpenHashMap;
 
 public enum DataItemType {
 
-    Unknown(-1),
     Byte(0),
     Short(1),
     Int(2),

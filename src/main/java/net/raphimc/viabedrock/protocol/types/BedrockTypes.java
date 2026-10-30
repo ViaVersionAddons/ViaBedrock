@@ -32,6 +32,7 @@ import net.raphimc.viabedrock.protocol.types.chunk.ChunkSectionType;
 import net.raphimc.viabedrock.protocol.types.chunk.DataPaletteType;
 import net.raphimc.viabedrock.protocol.types.entitydata.EntityDataType;
 import net.raphimc.viabedrock.protocol.types.entitydata.EntityPropertiesType;
+import net.raphimc.viabedrock.protocol.types.entitydata.PassengerOfBlocksType;
 import net.raphimc.viabedrock.protocol.types.model.*;
 import net.raphimc.viabedrock.protocol.types.position.BlockPositionType;
 import net.raphimc.viabedrock.protocol.types.position.Position2fType;
@@ -102,6 +103,8 @@ public final class BedrockTypes {
     public static final Type<FullContainerName> FULL_CONTAINER_NAME = new FullContainerNameType();
     public static final Type<FullContainerName> OPTIONAL_FULL_CONTAINER_NAME = new OptionalType<>(FULL_CONTAINER_NAME);
     public static final Type<FullContainerName[]> FULL_CONTAINER_NAME_ARRAY = new ArrayType<>(FULL_CONTAINER_NAME, UNSIGNED_VAR_INT);
+    public static final Type<PassengerOfBlocks> PASSENGER_OF_BLOCKS = new PassengerOfBlocksType();
+    public static final Type<PassengerOfBlocks> OPTIONAL_PASSENGER_OF_BLOCKS = new OptionalType<>(PASSENGER_OF_BLOCKS);
 
     private BedrockTypes() {
     }

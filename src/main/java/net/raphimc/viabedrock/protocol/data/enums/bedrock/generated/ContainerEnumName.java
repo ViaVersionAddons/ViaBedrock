@@ -73,6 +73,10 @@ public enum ContainerEnumName {
     SmithingTableTemplateContainer(61),
     CrafterLevelEntityContainer(62),
     DynamicContainer(63),
+    ReservedContainerA(67),
+    ReservedContainerB(68),
+    ReservedContainerC(69),
+    ReservedContainerD(70),
     ;
 
     private static final Int2ObjectMap<ContainerEnumName> BY_VALUE = new Int2ObjectOpenHashMap<>();

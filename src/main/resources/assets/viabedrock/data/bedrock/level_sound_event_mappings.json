@@ -178,6 +178,13 @@
         1.2
       ]
     },
+    "entity:minecraft:frostbite": {
+      "sound": "mob.frostbite.ambient",
+      "pitch": [
+        0.8,
+        1.2
+      ]
+    },
     "entity:minecraft:trader_llama": {
       "sound": "mob.llama.idle",
       "volume": 0.8,
@@ -1989,6 +1996,10 @@
         1.0
       ]
     },
+    "block:icicle": {
+      "sound": "block.icicle.break",
+      "volume": 0.8
+    },
     "block:mangrove_roots": {
       "sound": "block.mangrove_roots.break",
       "volume": 0.4,
@@ -2187,6 +2198,10 @@
       "sound": "block.poplar_leaves.break",
       "volume": 0.8,
       "pitch": 1.2
+    },
+    "block:ice_crystal": {
+      "sound": "block.ice_crystal.break",
+      "volume": 0.8
     },
     "block:mud": {
       "sound": "block.mud.break",
@@ -3486,6 +3501,13 @@
     },
     "entity:minecraft:drowned": {
       "sound": "mob.drowned.death",
+      "pitch": [
+        0.8,
+        1.2
+      ]
+    },
+    "entity:minecraft:frostbite": {
+      "sound": "mob.frostbite.death",
       "pitch": [
         0.8,
         1.2
@@ -5654,6 +5676,11 @@
       "sound": "fall.cherry_wood",
       "volume": 0.4
     },
+    "block:icicle": {
+      "sound": "block.icicle.fall",
+      "volume": 0.5,
+      "pitch": 0.75
+    },
     "block:mangrove_roots": {
       "sound": "block.mangrove_roots.fall",
       "volume": 0.4
@@ -5779,6 +5806,11 @@
     },
     "block:poplar_leaves": {
       "sound": "block.poplar_leaves.fall",
+      "pitch": 0.75
+    },
+    "block:ice_crystal": {
+      "sound": "block.ice_crystal.fall",
+      "volume": 0.5,
       "pitch": 0.75
     },
     "block:mud": {
@@ -7649,6 +7681,11 @@
       "volume": 0.23,
       "pitch": 0.5
     },
+    "block:icicle": {
+      "sound": "block.icicle.hit",
+      "volume": 0.25,
+      "pitch": 0.5
+    },
     "block:mangrove_roots": {
       "sound": "block.mangrove_roots.hit",
       "volume": 0.1,
@@ -7818,6 +7855,11 @@
     "block:poplar_leaves": {
       "sound": "block.poplar_leaves.hit",
       "pitch": 0.8
+    },
+    "block:ice_crystal": {
+      "sound": "block.ice_crystal.hit",
+      "volume": 0.25,
+      "pitch": 0.5
     },
     "block:mud": {
       "sound": "block.mud.hit",
@@ -8038,13 +8080,6 @@
     }
   },
   "hurt": {
-    "entity:minecraft:turtle": {
-      "sound": "mob.turtle.hurt",
-      "pitch": [
-        0.8,
-        1.2
-      ]
-    },
     "entity:minecraft:squid": {
       "sound": "mob.squid.hurt",
       "volume": 0.4,
@@ -8053,58 +8088,8 @@
         1.2
       ]
     },
-    "entity:minecraft:player": {
-      "sound": "game.player.hurt",
-      "pitch": [
-        0.8,
-        1.2
-      ]
-    },
-    "entity:minecraft:ghast": {
-      "sound": "mob.ghast.scream",
-      "volume": 5.0,
-      "pitch": [
-        0.8,
-        1.2
-      ]
-    },
-    "entity:minecraft:minecart": {
-      "sound": "game.player.hurt",
-      "pitch": [
-        0.8,
-        1.2
-      ]
-    },
-    "entity:minecraft:blaze": {
-      "sound": "mob.blaze.hit",
-      "pitch": [
-        0.8,
-        1.2
-      ]
-    },
     "entity:minecraft:stray": {
       "sound": "mob.stray.hurt",
-      "pitch": [
-        0.8,
-        1.2
-      ]
-    },
-    "entity:minecraft:armadillo": {
-      "sound": "mob.armadillo.hurt",
-      "pitch": [
-        0.8,
-        1.2
-      ]
-    },
-    "entity:minecraft:axolotl": {
-      "sound": "mob.axolotl.hurt",
-      "pitch": [
-        0.8,
-        1.2
-      ]
-    },
-    "entity:minecraft:zombie": {
-      "sound": "mob.zombie.hurt",
       "pitch": [
         0.8,
         1.2
@@ -8118,38 +8103,8 @@
         1.2
       ]
     },
-    "entity:minecraft:bee": {
-      "sound": "mob.bee.hurt",
-      "volume": 0.6,
-      "pitch": [
-        0.9,
-        1.1
-      ]
-    },
-    "entity:minecraft:iron_golem": {
-      "sound": "mob.irongolem.hit",
-      "pitch": [
-        0.8,
-        1.2
-      ]
-    },
-    "entity:minecraft:ocelot": {
-      "sound": "mob.cat.hit",
-      "volume": 0.45,
-      "pitch": [
-        0.8,
-        1.2
-      ]
-    },
     "entity:minecraft:copper_golem": {
       "sound": "mob.copper_golem.hurt"
-    },
-    "entity:minecraft:drowned": {
-      "sound": "mob.drowned.hurt",
-      "pitch": [
-        0.8,
-        1.2
-      ]
     },
     "entity:minecraft:wandering_trader": {
       "sound": "mob.wanderingtrader.hurt",
@@ -8164,32 +8119,6 @@
         0.8,
         1.2
       ]
-    },
-    "entity:minecraft:cod": {
-      "sound": "mob.fish.hurt",
-      "pitch": [
-        0.8,
-        1.2
-      ]
-    },
-    "entity:minecraft:trader_llama": {
-      "sound": "mob.llama.hurt",
-      "volume": 0.8,
-      "pitch": [
-        0.8,
-        1.2
-      ]
-    },
-    "entity:minecraft:salmon": {
-      "sound": "mob.fish.hurt",
-      "pitch": [
-        0.8,
-        1.2
-      ]
-    },
-    "entity:minecraft:zombie_nautilus": {
-      "sound": "mob.zombie_nautilus.hurt",
-      "volume": 3.0
     },
     "entity:minecraft:pillager": {
       "sound": "mob.pillager.hurt",
@@ -8212,50 +8141,8 @@
         1.2
       ]
     },
-    "entity:minecraft:bogged": {
-      "sound": "mob.bogged.hurt",
-      "pitch": [
-        0.8,
-        1.2
-      ]
-    },
-    "entity:minecraft:pig": {
-      "sound": "mob.pig.say",
-      "pitch": [
-        0.8,
-        1.2
-      ]
-    },
-    "entity:minecraft:zombie_pigman": {
-      "sound": "mob.zombiepig.zpighurt",
-      "pitch": [
-        0.8,
-        1.2
-      ]
-    },
-    "entity:minecraft:cow": {
-      "sound": "mob.cow.hurt",
-      "pitch": [
-        0.8,
-        1.2
-      ]
-    },
     "entity:minecraft:guardian": {
       "sound": "mob.guardian.land_hit",
-      "pitch": [
-        0.8,
-        1.2
-      ]
-    },
-    "entity:minecraft:warden": {
-      "sound": "mob.warden.hurt",
-      "pitch": [
-        0.8,
-        1.0
-      ]
-    },
-    "entity:minecraft:slime": {
-      "sound": "mob.slime.small",
       "pitch": [
         0.8,
         1.2
@@ -8268,22 +8155,8 @@
         1.2
       ]
     },
-    "entity:minecraft:vindicator": {
-      "sound": "mob.vindicator.hurt",
-      "pitch": [
-        0.8,
-        1.2
-      ]
-    },
     "entity:minecraft:happy_ghast": {
       "sound": "mob.happy_ghast.hurt"
-    },
-    "entity:minecraft:camel": {
-      "sound": "mob.camel.hurt",
-      "pitch": [
-        0.8,
-        1.2
-      ]
     },
     "entity:minecraft:lightning_bolt": {
       "sound": "game.player.hurt",
@@ -8293,23 +8166,8 @@
         1.2
       ]
     },
-    "entity:minecraft:goat": {
-      "sound": "mob.goat.hurt",
-      "pitch": [
-        0.8,
-        1.2
-      ]
-    },
     "entity:minecraft:sulfur_cube": {
       "sound": "mob.sulfur_cube.hurt",
-      "volume": 0.8,
-      "pitch": [
-        0.8,
-        1.2
-      ]
-    },
-    "entity:minecraft:llama": {
-      "sound": "mob.llama.hurt",
       "volume": 0.8,
       "pitch": [
         0.8,
@@ -8331,26 +8189,8 @@
         1.2
       ]
     },
-    "entity:minecraft:item": {
-      "sound": "game.player.hurt",
-      "pitch": [
-        0.8,
-        1.2
-      ]
-    },
     "entity:minecraft:tropicalfish": {
       "sound": "mob.fish.hurt",
-      "pitch": [
-        0.8,
-        1.2
-      ]
-    },
-    "entity:minecraft:nautilus": {
-      "sound": "mob.nautilus.hurt",
-      "volume": 3.0
-    },
-    "entity:minecraft:strider": {
-      "sound": "mob.strider.hurt",
       "pitch": [
         0.8,
         1.2
@@ -8371,13 +8211,6 @@
         1.2
       ]
     },
-    "entity:minecraft:husk": {
-      "sound": "mob.husk.hurt",
-      "pitch": [
-        0.8,
-        1.2
-      ]
-    },
     "entity:minecraft:mooshroom": {
       "sound": "mob.cow.hurt",
       "pitch": [
@@ -8391,17 +8224,6 @@
         0.8,
         1.2
       ]
-    },
-    "entity:minecraft:ender_dragon": {
-      "sound": "mob.enderdragon.hit",
-      "volume": 80.0,
-      "pitch": [
-        0.8,
-        1.2
-      ]
-    },
-    "entity:minecraft:breeze": {
-      "sound": "mob.breeze.hurt"
     },
     "entity:minecraft:tadpole": {
       "sound": "mob.tadpole.hurt",
@@ -8417,31 +8239,8 @@
         1.2
       ]
     },
-    "entity:minecraft:horse": {
-      "sound": "mob.horse.hit",
-      "volume": 0.8,
-      "pitch": [
-        0.8,
-        1.2
-      ]
-    },
     "entity:minecraft:vex": {
       "sound": "mob.vex.hurt",
-      "pitch": [
-        0.8,
-        1.2
-      ]
-    },
-    "entity:minecraft:parched": {
-      "sound": "mob.parched.hurt",
-      "pitch": [
-        0.8,
-        1.2
-      ]
-    },
-    "entity:minecraft:mule": {
-      "sound": "mob.horse.donkey.hit",
-      "volume": 0.8,
       "pitch": [
         0.8,
         1.2
@@ -8475,13 +8274,6 @@
         1.2
       ]
     },
-    "entity:minecraft:shulker": {
-      "sound": "mob.shulker.hurt",
-      "pitch": [
-        0.8,
-        1.2
-      ]
-    },
     "entity:minecraft:magma_cube": {
       "sound": "mob.magmacube.small",
       "pitch": [
@@ -8489,22 +8281,8 @@
         1.2
       ]
     },
-    "entity:minecraft:ravager": {
-      "sound": "mob.ravager.hurt",
-      "pitch": [
-        0.8,
-        1.2
-      ]
-    },
     "entity:minecraft:xp_orb": {
       "sound": "game.player.hurt",
-      "pitch": [
-        0.8,
-        1.2
-      ]
-    },
-    "entity:minecraft:sniffer": {
-      "sound": "mob.sniffer.hurt",
       "pitch": [
         0.8,
         1.2
@@ -8533,30 +8311,8 @@
         1.2
       ]
     },
-    "entity:minecraft:skeleton": {
-      "sound": "mob.skeleton.hurt",
-      "volume": 0.7,
-      "pitch": [
-        0.8,
-        1.2
-      ]
-    },
     "entity:minecraft:pufferfish": {
       "sound": "mob.fish.hurt",
-      "pitch": [
-        0.8,
-        1.2
-      ]
-    },
-    "entity:minecraft:witch": {
-      "sound": "mob.witch.hurt",
-      "pitch": [
-        0.8,
-        1.2
-      ]
-    },
-    "entity:minecraft:wolf": {
-      "sound": "mob.wolf.hurt",
       "pitch": [
         0.8,
         1.2
@@ -8592,22 +8348,8 @@
         1.2
       ]
     },
-    "entity:minecraft:spider": {
-      "sound": "mob.spider.say",
-      "pitch": [
-        0.8,
-        1.2
-      ]
-    },
     "entity:minecraft:silverfish": {
       "sound": "mob.silverfish.hit",
-      "pitch": [
-        0.8,
-        1.2
-      ]
-    },
-    "entity:minecraft:endermite": {
-      "sound": "mob.endermite.hit",
       "pitch": [
         0.8,
         1.2
@@ -8628,20 +8370,6 @@
         1.2
       ]
     },
-    "entity:minecraft:creeper": {
-      "sound": "mob.creeper.say",
-      "pitch": [
-        0.8,
-        1.2
-      ]
-    },
-    "entity:minecraft:cave_spider": {
-      "sound": "mob.spider.say",
-      "pitch": [
-        0.8,
-        1.2
-      ]
-    },
     "entity:minecraft:npc": {
       "sound": "mob.villager.hit",
       "pitch": [
@@ -8651,21 +8379,6 @@
     },
     "entity:minecraft:hoglin": {
       "sound": "mob.hoglin.hurt",
-      "pitch": [
-        0.8,
-        1.2
-      ]
-    },
-    "entity:minecraft:phantom": {
-      "sound": "mob.phantom.hurt",
-      "volume": 10.0,
-      "pitch": [
-        0.8,
-        1.2
-      ]
-    },
-    "entity:minecraft:snow_golem": {
-      "sound": "mob.snowgolem.hurt",
       "pitch": [
         0.8,
         1.2
@@ -8702,6 +8415,342 @@
     },
     "entity:minecraft:allay": {
       "sound": "mob.allay.hurt",
+      "pitch": [
+        0.8,
+        1.2
+      ]
+    },
+    "entity:minecraft:turtle": {
+      "sound": "mob.turtle.hurt",
+      "pitch": [
+        0.8,
+        1.2
+      ]
+    },
+    "entity:minecraft:player": {
+      "sound": "game.player.hurt",
+      "pitch": [
+        0.8,
+        1.2
+      ]
+    },
+    "entity:minecraft:ghast": {
+      "sound": "mob.ghast.scream",
+      "volume": 5.0,
+      "pitch": [
+        0.8,
+        1.2
+      ]
+    },
+    "entity:minecraft:minecart": {
+      "sound": "game.player.hurt",
+      "pitch": [
+        0.8,
+        1.2
+      ]
+    },
+    "entity:minecraft:blaze": {
+      "sound": "mob.blaze.hit",
+      "pitch": [
+        0.8,
+        1.2
+      ]
+    },
+    "entity:minecraft:armadillo": {
+      "sound": "mob.armadillo.hurt",
+      "pitch": [
+        0.8,
+        1.2
+      ]
+    },
+    "entity:minecraft:axolotl": {
+      "sound": "mob.axolotl.hurt",
+      "pitch": [
+        0.8,
+        1.2
+      ]
+    },
+    "entity:minecraft:zombie": {
+      "sound": "mob.zombie.hurt",
+      "pitch": [
+        0.8,
+        1.2
+      ]
+    },
+    "entity:minecraft:bee": {
+      "sound": "mob.bee.hurt",
+      "volume": 0.6,
+      "pitch": [
+        0.9,
+        1.1
+      ]
+    },
+    "entity:minecraft:iron_golem": {
+      "sound": "mob.irongolem.hit",
+      "pitch": [
+        0.8,
+        1.2
+      ]
+    },
+    "entity:minecraft:ocelot": {
+      "sound": "mob.cat.hit",
+      "volume": 0.45,
+      "pitch": [
+        0.8,
+        1.2
+      ]
+    },
+    "entity:minecraft:drowned": {
+      "sound": "mob.drowned.hurt",
+      "pitch": [
+        0.8,
+        1.2
+      ]
+    },
+    "entity:minecraft:frostbite": {
+      "sound": "mob.frostbite.hurt",
+      "pitch": [
+        0.8,
+        1.2
+      ]
+    },
+    "entity:minecraft:cod": {
+      "sound": "mob.fish.hurt",
+      "pitch": [
+        0.8,
+        1.2
+      ]
+    },
+    "entity:minecraft:trader_llama": {
+      "sound": "mob.llama.hurt",
+      "volume": 0.8,
+      "pitch": [
+        0.8,
+        1.2
+      ]
+    },
+    "entity:minecraft:salmon": {
+      "sound": "mob.fish.hurt",
+      "pitch": [
+        0.8,
+        1.2
+      ]
+    },
+    "entity:minecraft:zombie_nautilus": {
+      "sound": "mob.zombie_nautilus.hurt",
+      "volume": 3.0
+    },
+    "entity:minecraft:bogged": {
+      "sound": "mob.bogged.hurt",
+      "pitch": [
+        0.8,
+        1.2
+      ]
+    },
+    "entity:minecraft:pig": {
+      "sound": "mob.pig.say",
+      "pitch": [
+        0.8,
+        1.2
+      ]
+    },
+    "entity:minecraft:zombie_pigman": {
+      "sound": "mob.zombiepig.zpighurt",
+      "pitch": [
+        0.8,
+        1.2
+      ]
+    },
+    "entity:minecraft:cow": {
+      "sound": "mob.cow.hurt",
+      "pitch": [
+        0.8,
+        1.2
+      ]
+    },
+    "entity:minecraft:warden": {
+      "sound": "mob.warden.hurt",
+      "pitch": [
+        0.8,
+        1.0
+      ]
+    },
+    "entity:minecraft:slime": {
+      "sound": "mob.slime.small",
+      "pitch": [
+        0.8,
+        1.2
+      ]
+    },
+    "entity:minecraft:vindicator": {
+      "sound": "mob.vindicator.hurt",
+      "pitch": [
+        0.8,
+        1.2
+      ]
+    },
+    "entity:minecraft:camel": {
+      "sound": "mob.camel.hurt",
+      "pitch": [
+        0.8,
+        1.2
+      ]
+    },
+    "entity:minecraft:goat": {
+      "sound": "mob.goat.hurt",
+      "pitch": [
+        0.8,
+        1.2
+      ]
+    },
+    "entity:minecraft:llama": {
+      "sound": "mob.llama.hurt",
+      "volume": 0.8,
+      "pitch": [
+        0.8,
+        1.2
+      ]
+    },
+    "entity:minecraft:item": {
+      "sound": "game.player.hurt",
+      "pitch": [
+        0.8,
+        1.2
+      ]
+    },
+    "entity:minecraft:nautilus": {
+      "sound": "mob.nautilus.hurt",
+      "volume": 3.0
+    },
+    "entity:minecraft:strider": {
+      "sound": "mob.strider.hurt",
+      "pitch": [
+        0.8,
+        1.2
+      ]
+    },
+    "entity:minecraft:husk": {
+      "sound": "mob.husk.hurt",
+      "pitch": [
+        0.8,
+        1.2
+      ]
+    },
+    "entity:minecraft:ender_dragon": {
+      "sound": "mob.enderdragon.hit",
+      "volume": 80.0,
+      "pitch": [
+        0.8,
+        1.2
+      ]
+    },
+    "entity:minecraft:breeze": {
+      "sound": "mob.breeze.hurt"
+    },
+    "entity:minecraft:horse": {
+      "sound": "mob.horse.hit",
+      "volume": 0.8,
+      "pitch": [
+        0.8,
+        1.2
+      ]
+    },
+    "entity:minecraft:parched": {
+      "sound": "mob.parched.hurt",
+      "pitch": [
+        0.8,
+        1.2
+      ]
+    },
+    "entity:minecraft:mule": {
+      "sound": "mob.horse.donkey.hit",
+      "volume": 0.8,
+      "pitch": [
+        0.8,
+        1.2
+      ]
+    },
+    "entity:minecraft:shulker": {
+      "sound": "mob.shulker.hurt",
+      "pitch": [
+        0.8,
+        1.2
+      ]
+    },
+    "entity:minecraft:ravager": {
+      "sound": "mob.ravager.hurt",
+      "pitch": [
+        0.8,
+        1.2
+      ]
+    },
+    "entity:minecraft:sniffer": {
+      "sound": "mob.sniffer.hurt",
+      "pitch": [
+        0.8,
+        1.2
+      ]
+    },
+    "entity:minecraft:skeleton": {
+      "sound": "mob.skeleton.hurt",
+      "volume": 0.7,
+      "pitch": [
+        0.8,
+        1.2
+      ]
+    },
+    "entity:minecraft:witch": {
+      "sound": "mob.witch.hurt",
+      "pitch": [
+        0.8,
+        1.2
+      ]
+    },
+    "entity:minecraft:wolf": {
+      "sound": "mob.wolf.hurt",
+      "pitch": [
+        0.8,
+        1.2
+      ]
+    },
+    "entity:minecraft:spider": {
+      "sound": "mob.spider.say",
+      "pitch": [
+        0.8,
+        1.2
+      ]
+    },
+    "entity:minecraft:endermite": {
+      "sound": "mob.endermite.hit",
+      "pitch": [
+        0.8,
+        1.2
+      ]
+    },
+    "entity:minecraft:creeper": {
+      "sound": "mob.creeper.say",
+      "pitch": [
+        0.8,
+        1.2
+      ]
+    },
+    "entity:minecraft:cave_spider": {
+      "sound": "mob.spider.say",
+      "pitch": [
+        0.8,
+        1.2
+      ]
+    },
+    "entity:minecraft:phantom": {
+      "sound": "mob.phantom.hurt",
+      "volume": 10.0,
+      "pitch": [
+        0.8,
+        1.2
+      ]
+    },
+    "entity:minecraft:snow_golem": {
+      "sound": "mob.snowgolem.hurt",
       "pitch": [
         0.8,
         1.2
@@ -8820,6 +8869,11 @@
         0.8,
         1.2
       ]
+    }
+  },
+  "ice_ball.break": {
+    "": {
+      "sound": "entity.ice_ball.break"
     }
   },
   "icebomb.hit": {
@@ -9943,6 +9997,10 @@
       "sound": "step.cherry_wood",
       "volume": 0.12
     },
+    "block:icicle": {
+      "sound": "block.icicle.land",
+      "volume": 0.15
+    },
     "block:mangrove_roots": {
       "sound": "block.mangrove_roots.step",
       "volume": 0.1
@@ -10079,6 +10137,10 @@
     "block:poplar_leaves": {
       "sound": "block.poplar_leaves.jump",
       "volume": 0.4
+    },
+    "block:ice_crystal": {
+      "sound": "block.ice_crystal.land",
+      "volume": 0.15
     },
     "block:mud": {
       "sound": "block.mud.step",
@@ -10425,6 +10487,10 @@
       "sound": "step.cherry_wood",
       "volume": 0.18
     },
+    "block:icicle": {
+      "sound": "block.icicle.land",
+      "volume": 0.15
+    },
     "block:mangrove_roots": {
       "sound": "block.mangrove_roots.fall",
       "volume": 0.1
@@ -10556,6 +10622,10 @@
     "block:poplar_leaves": {
       "sound": "block.poplar_leaves.land",
       "volume": 0.4
+    },
+    "block:ice_crystal": {
+      "sound": "block.ice_crystal.land",
+      "volume": 0.15
     },
     "block:mud": {
       "sound": "block.mud.fall",
@@ -11556,6 +11626,10 @@
       "sound": "place.cherry_wood",
       "pitch": 0.8
     },
+    "block:icicle": {
+      "sound": "block.icicle.place",
+      "pitch": 0.8
+    },
     "block:mangrove_roots": {
       "sound": "block.mangrove_roots.place",
       "volume": 0.25,
@@ -11755,6 +11829,10 @@
     },
     "block:poplar_leaves": {
       "sound": "block.poplar_leaves.place",
+      "pitch": 0.8
+    },
+    "block:ice_crystal": {
+      "sound": "block.ice_crystal.place",
       "pitch": 0.8
     },
     "block:mud": {
@@ -14101,6 +14179,10 @@
       "sound": "step.cherry_wood",
       "volume": 0.2
     },
+    "block:icicle": {
+      "sound": "block.icicle.step",
+      "volume": 0.15
+    },
     "entity:minecraft:pufferfish": {
       "sound": "mob.fish.step",
       "volume": 0.15
@@ -14255,6 +14337,10 @@
       "sound": "step.slime",
       "volume": 0.3
     },
+    "entity:minecraft:frostbite": {
+      "sound": "mob.frostbite.step",
+      "volume": 0.45
+    },
     "entity:minecraft:cod": {
       "sound": "mob.fish.step",
       "volume": 0.15
@@ -14352,6 +14438,10 @@
     "block:poplar_leaves": {
       "sound": "block.poplar_leaves.step",
       "volume": 0.3
+    },
+    "block:ice_crystal": {
+      "sound": "block.ice_crystal.step",
+      "volume": 0.15
     },
     "block:mud": {
       "sound": "block.mud.step",

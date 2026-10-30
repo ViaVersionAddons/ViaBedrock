@@ -76,6 +76,9 @@ public final class OtherPlayerPackets {
             wrapper.read(BedrockTypes.ENTITY_PROPERTIES); // entity properties
             final PlayerAbilities abilities = wrapper.read(BedrockTypes.PLAYER_ABILITIES); // abilities
             wrapper.read(BedrockTypes.ENTITY_LINK_ARRAY); // entity links
+            wrapper.read(BedrockTypes.OPTIONAL_PASSENGER_OF_BLOCKS); // passenger of blocks
+            final String deviceId = wrapper.read(BedrockTypes.STRING); // device id
+            final int buildPlatform = wrapper.read(BedrockTypes.INT_LE); // build platform
 
             final PlayerEntity entity = entityTracker.addEntity(new PlayerEntity(wrapper.user(), entityRuntimeId, entityTracker.getNextJavaEntityId(), uuid, abilities));
             entity.setPosition(position);
@@ -89,8 +92,8 @@ public final class OtherPlayerPackets {
             playerInfoUpdate.write(Types.STRING, StringUtil.encodeUuid(uuid)); // username
             playerInfoUpdate.write(Types.PROFILE_PROPERTY_ARRAY, new GameProfile.Property[]{
                 new GameProfile.Property("platform_online_id", platformOnlineId),
-                new GameProfile.Property("device_id", wrapper.read(BedrockTypes.STRING)), // device id
-                new GameProfile.Property("device_os", wrapper.read(BedrockTypes.INT_LE).toString()) // device os
+                new GameProfile.Property("device_id", deviceId),
+                new GameProfile.Property("device_os", Integer.toString(buildPlatform))
             }); // properties
             playerInfoUpdate.write(Types.VAR_INT, GameTypeRewriter.getEffectiveGameMode(gameType, gameSession.getLevelGameType()).ordinal()); // game mode
             playerInfoUpdate.send(BedrockProtocol.class);

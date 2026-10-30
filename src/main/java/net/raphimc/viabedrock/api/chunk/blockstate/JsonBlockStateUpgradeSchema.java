@@ -212,7 +212,9 @@ public class JsonBlockStateUpgradeSchema extends BlockStateUpgradeSchema {
 
                     if (tag.get("states") instanceof CompoundTag states) {
                         for (Pair<String, ?> property : toAdd) {
-                            states.put(property.key(), NbtUtil.createTag(property.value()));
+                            if (!states.contains(property.key())) {
+                                states.put(property.key(), NbtUtil.createTag(property.value()));
+                            }
                         }
                     }
                 });

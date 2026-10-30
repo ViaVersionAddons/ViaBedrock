@@ -54,6 +54,7 @@ public interface InventoryTransactionData {
         long entityRuntimeId,
         ItemUseOnActorActionType actionType,
         int hotbarSlot,
+        HandSlot handSlot,
         BedrockItem itemInHand,
         Position3f playerPosition,
         Position3f clickPosition
@@ -66,7 +67,8 @@ public interface InventoryTransactionData {
         ItemReleaseActionType actionType,
         int hotbarSlot,
         BedrockItem itemInHand,
-        Position3f headPosition
+        Position3f headPosition,
+        HandSlot handSlot
     ) implements InventoryTransactionData {
     }
 

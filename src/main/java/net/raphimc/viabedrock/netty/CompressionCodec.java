@@ -86,7 +86,7 @@ public class CompressionCodec extends ByteToMessageCodec<ByteBuf> {
         }
 
         final int rawAlgorithm = in.readUnsignedByte();
-        final PacketCompressionAlgorithm algorithm = PacketCompressionAlgorithm.getByValue(rawAlgorithm);
+        final PacketCompressionAlgorithm algorithm = rawAlgorithm == 0xFF ? PacketCompressionAlgorithm.None : PacketCompressionAlgorithm.getByValue(rawAlgorithm);
         if (algorithm == null) { // Bedrock client drops the packet if the algorithm is unknown
             ViaBedrock.getPlatform().getLogger().log(Level.WARNING, "Dropping packet with unknown PacketCompressionAlgorithm: " + rawAlgorithm);
             in.skipBytes(in.readableBytes());
@@ -95,7 +95,7 @@ public class CompressionCodec extends ByteToMessageCodec<ByteBuf> {
 
         final CompressionAlgorithm compressionAlgorithm = this.getCompressionAlgorithm(algorithm);
         if (compressionAlgorithm instanceof NoopCompression) {
-            out.add(in.retain());
+            out.add(in.readRetainedSlice(in.readableBytes()));
         } else {
             final ByteBuf uncompressedData = ctx.alloc().buffer();
             compressionAlgorithm.decompress(in, uncompressedData); // Bedrock client would drop packets with invalid data, but this would be too insane to do

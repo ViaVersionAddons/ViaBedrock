@@ -82,6 +82,7 @@ public class InventoryTransactionPacketType extends Type<BedrockInventoryTransac
                 BedrockTypes.UNSIGNED_VAR_LONG.read(buffer),
                 ItemUseOnActorActionType.getByValue(BedrockTypes.VAR_INT.read(buffer)),
                 BedrockTypes.VAR_INT.read(buffer),
+                HandSlot.getByValue(buffer.readByte()),
                 itemRewriter.newItemType().read(buffer),
                 BedrockTypes.POSITION_3F.read(buffer),
                 BedrockTypes.POSITION_3F.read(buffer)
@@ -90,7 +91,8 @@ public class InventoryTransactionPacketType extends Type<BedrockInventoryTransac
                 ItemReleaseActionType.getByValue(BedrockTypes.VAR_INT.read(buffer)),
                 BedrockTypes.VAR_INT.read(buffer),
                 itemRewriter.newItemType().read(buffer),
-                BedrockTypes.POSITION_3F.read(buffer)
+                BedrockTypes.POSITION_3F.read(buffer),
+                HandSlot.getByValue(buffer.readByte())
             );
         };
 
@@ -140,6 +142,7 @@ public class InventoryTransactionPacketType extends Type<BedrockInventoryTransac
                 BedrockTypes.UNSIGNED_VAR_LONG.write(buffer, data.entityRuntimeId());
                 BedrockTypes.VAR_INT.write(buffer, data.actionType().getValue());
                 BedrockTypes.VAR_INT.write(buffer, data.hotbarSlot());
+                buffer.writeByte(data.handSlot().getValue());
                 itemRewriter.newItemType().write(buffer, data.itemInHand());
                 BedrockTypes.POSITION_3F.write(buffer, data.playerPosition());
                 BedrockTypes.POSITION_3F.write(buffer, data.clickPosition());
@@ -150,6 +153,7 @@ public class InventoryTransactionPacketType extends Type<BedrockInventoryTransac
                 BedrockTypes.VAR_INT.write(buffer, data.hotbarSlot());
                 itemRewriter.newItemType().write(buffer, data.itemInHand());
                 BedrockTypes.POSITION_3F.write(buffer, data.headPosition());
+                buffer.writeByte(data.handSlot().getValue());
             }
         }
     }

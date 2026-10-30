@@ -8,7 +8,7 @@ public enum PacketCompressionAlgorithm {
 
     ZLib(0),
     Snappy(1),
-    None(255),
+    None(65535),
     ;
 
     private static final Int2ObjectMap<PacketCompressionAlgorithm> BY_VALUE = new Int2ObjectOpenHashMap<>();

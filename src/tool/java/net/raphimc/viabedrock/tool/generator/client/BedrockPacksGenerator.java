@@ -78,6 +78,13 @@ public final class BedrockPacksGenerator {
                 copyFolder(packDir, fsRoot, "fogs");
                 copyFolder(packDir, fsRoot, "render_controllers");
 
+                final File brArchiveDir = new File(packDir, "__brarchive");
+                if (brArchiveDir.exists() && brArchiveDir.isDirectory()) {
+                    copyFolder(brArchiveDir, fsRoot, "biomes");
+                    copyFolder(brArchiveDir, fsRoot, "fogs");
+                    copyFolder(brArchiveDir, fsRoot, "render_controllers");
+                }
+
                 removeTimestamps(fsRoot);
             }
         }

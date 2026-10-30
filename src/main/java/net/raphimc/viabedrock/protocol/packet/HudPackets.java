@@ -79,6 +79,7 @@ public final class HudPackets {
                         final long entityUniqueId = wrapper.read(BedrockTypes.VAR_LONG); // actorUniqueId
                         final String name = wrapper.read(BedrockTypes.STRING); // name
                         final String xuid = wrapper.read(BedrockTypes.STRING); // xuid
+                        final String playFabId = wrapper.read(BedrockTypes.STRING); // skin PlayFab id
                         final String platformOnlineId = wrapper.read(BedrockTypes.STRING); // platform online id
                         final int deviceOs = wrapper.read(BedrockTypes.INT_LE); // device os
                         final SkinData skin = wrapper.read(BedrockTypes.SKIN); // skin
@@ -89,6 +90,7 @@ public final class HudPackets {
 
                         profiles.add(new GameProfile(name, uuid, new GameProfile.Property[]{
                             new GameProfile.Property("xuid", xuid),
+                            new GameProfile.Property("playfab_id", playFabId),
                             new GameProfile.Property("platform_online_id", platformOnlineId),
                             new GameProfile.Property("device_os", String.valueOf(deviceOs)),
                             new GameProfile.Property("is_teacher", String.valueOf(isTeacher)),

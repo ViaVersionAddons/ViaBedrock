@@ -96,6 +96,7 @@ public final class EntityPackets {
             final EntityData[] entityData = wrapper.read(BedrockTypes.ENTITY_DATA_ARRAY); // entity data
             wrapper.read(BedrockTypes.ENTITY_PROPERTIES); // entity properties
             wrapper.read(BedrockTypes.ENTITY_LINK_ARRAY); // entity links
+            wrapper.read(BedrockTypes.OPTIONAL_PASSENGER_OF_BLOCKS); // passenger of blocks
 
             final Entity entity;
             final EntityTypes26_3 javaEntityType = BedrockProtocol.MAPPINGS.getBedrockToJavaEntities().get(type);
@@ -605,6 +606,7 @@ public final class EntityPackets {
             final long entityRuntimeId = wrapper.read(BedrockTypes.UNSIGNED_VAR_LONG); // entity runtime id
             wrapper.read(BedrockTypes.FLOAT_LE); // data
             wrapper.read(BedrockTypes.OPTIONAL_STRING); // swing source
+            final HandSlot hand = HandSlot.getByValue(wrapper.read(Types.BYTE), HandSlot.Mainhand); // hand
 
             final Entity entity = wrapper.user().get(EntityTracker.class).getEntityByRid(entityRuntimeId);
             if (entity == null) {
@@ -617,7 +619,7 @@ public final class EntityPackets {
                 case NoAction -> wrapper.cancel();
                 case Swing -> {
                     wrapper.setPacketType(ClientboundPackets26_3.SWING_ANIMATION);
-                    wrapper.write(Types.VAR_INT, 0); // hand
+                    wrapper.write(Types.VAR_INT, hand.getValue()); // hand
                     wrapper.write(SwingAnimation.TYPE, DEFAULT_SWING_ANIMATION);
                 }
                 case WakeUp -> wrapper.write(Types.UNSIGNED_BYTE, (short) AnimateAction.WAKE_UP.ordinal()); // action

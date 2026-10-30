@@ -1,0 +1,59 @@
+{
+  "maxVersionMajor": 1,
+  "maxVersionMinor": 21,
+  "maxVersionPatch": 60,
+  "maxVersionRevision": 33,
+  "addedProperties": {
+    "minecraft:chorus_plant": {
+      "minecraft:connection_down": {
+        "byte": 0
+      },
+      "minecraft:connection_east": {
+        "byte": 0
+      },
+      "minecraft:connection_north": {
+        "byte": 0
+      },
+      "minecraft:connection_south": {
+        "byte": 0
+      },
+      "minecraft:connection_up": {
+        "byte": 0
+      },
+      "minecraft:connection_west": {
+        "byte": 0
+      }
+    },
+    "minecraft:fire": {
+      "minecraft:connection_east": {
+        "byte": 0
+      },
+      "minecraft:connection_north": {
+        "byte": 0
+      },
+      "minecraft:connection_south": {
+        "byte": 0
+      },
+      "minecraft:connection_up": {
+        "byte": 0
+      },
+      "minecraft:connection_west": {
+        "byte": 0
+      }
+    },
+    "minecraft:redstone_wire": {
+      "redstone_east": {
+        "string": "none"
+      },
+      "redstone_north": {
+        "string": "none"
+      },
+      "redstone_south": {
+        "string": "none"
+      },
+      "redstone_west": {
+        "string": "none"
+      }
+    }
+  }
+}
