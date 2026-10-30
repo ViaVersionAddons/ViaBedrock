@@ -47,7 +47,7 @@ public class InMemoryContent extends Content {
     }
 
     @Override
-    public boolean put(final String path, final byte[] data) {
+    protected boolean putBytes(final String path, final byte[] data) {
         return this.content.put(path, data) != null;
     }
 

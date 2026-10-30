@@ -31,6 +31,24 @@ import java.util.stream.Stream;
 
 public final class FileSystemUtil {
 
+    public static void writeAtomically(final Path path, final byte[] bytes) throws IOException {
+        final Path temporary = Files.createTempFile(path.getParent(), path.getFileName().toString(), ".tmp");
+        try {
+            Files.write(temporary, bytes);
+            moveAtomically(temporary, path);
+        } finally {
+            Files.deleteIfExists(temporary);
+        }
+    }
+
+    public static void moveAtomically(final Path source, final Path destination) throws IOException {
+        try {
+            Files.move(source, destination, StandardCopyOption.ATOMIC_MOVE, StandardCopyOption.REPLACE_EXISTING);
+        } catch (final AtomicMoveNotSupportedException ignored) {
+            Files.move(source, destination, StandardCopyOption.REPLACE_EXISTING);
+        }
+    }
+
     public static Map<Path, byte[]> getFilesInDirectory(final String assetPath) throws IOException, URISyntaxException {
         final Path path = getPath(FileSystemUtil.class.getClassLoader().getResource(assetPath).toURI());
         return getFilesInPath(path);

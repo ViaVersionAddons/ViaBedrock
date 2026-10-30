@@ -89,7 +89,7 @@ public class DirectoryContent extends Content {
     }
 
     @Override
-    public boolean put(final String path, final byte[] data) {
+    protected boolean putBytes(final String path, final byte[] data) {
         final boolean exists = this.contains(path);
         try {
             Files.write(this.resolvePath(this.dir, Path.of(path)), data);

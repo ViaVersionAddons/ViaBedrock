@@ -25,11 +25,12 @@ import java.util.zip.ZipInputStream;
 public class ZipContent extends InMemoryContent {
 
     public ZipContent(final byte[] zipData) throws IOException {
-        final ZipInputStream zipInputStream = new ZipInputStream(new ByteArrayInputStream(zipData));
-        ZipEntry zipEntry;
-        while ((zipEntry = zipInputStream.getNextEntry()) != null) {
-            if (!zipEntry.isDirectory()) {
-                this.content.put(zipEntry.getName(), zipInputStream.readAllBytes());
+        try (ZipInputStream zipInputStream = new ZipInputStream(new ByteArrayInputStream(zipData))) {
+            ZipEntry zipEntry;
+            while ((zipEntry = zipInputStream.getNextEntry()) != null) {
+                if (!zipEntry.isDirectory()) {
+                    this.content.put(zipEntry.getName(), zipInputStream.readAllBytes());
+                }
             }
         }
     }

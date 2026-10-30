@@ -45,45 +45,97 @@ public class ResourcePackDownloadTracker implements StorableObject {
         this.downloads.remove(key);
     }
 
-    public record Download(byte[] hash, boolean premium, PackType type, long chunkSize, boolean[] receivedChunks, byte[] data) {
+    /** Chunk assembly is owned by the event loop; a completed buffer is read only by its decoder. */
+    public static final class Download {
 
-        public ResourcePack processDataChunk(final long chunk, final byte[] data) {
+        private final byte[] hash;
+        private final boolean premium;
+        private final PackType type;
+        private final long chunkSize;
+        private final boolean[] receivedChunks;
+        private final byte[] data;
+        private int remainingChunks;
+
+        public Download(final byte[] hash, final boolean premium, final PackType type, final long chunkSize, final boolean[] receivedChunks, final byte[] data) {
+            this.hash = hash;
+            this.premium = premium;
+            this.type = type;
+            this.chunkSize = chunkSize;
+            this.receivedChunks = receivedChunks;
+            this.data = data;
+            for (final boolean received : receivedChunks) {
+                if (!received) {
+                    this.remainingChunks++;
+                }
+            }
+        }
+
+        /** Copies one chunk without hashing or inflating the complete archive. */
+        public boolean acceptDataChunk(final long chunk, final byte[] data) {
             if (chunk < 0 || chunk >= this.receivedChunks.length) {
                 throw new IllegalStateException("Received out of bounds chunk");
             }
-            if (this.receivedChunks[Math.toIntExact(chunk)]) {
+            final int index = Math.toIntExact(chunk);
+            if (this.receivedChunks[index]) {
                 throw new IllegalStateException("Received duplicate chunk");
             }
 
             System.arraycopy(data, 0, this.data, Math.toIntExact(chunk * this.chunkSize), data.length);
-            this.receivedChunks[Math.toIntExact(chunk)] = true;
-            if (this.hasReceivedAllChunks()) {
-                try {
-                    final MessageDigest sha256 = MessageDigest.getInstance("SHA-256");
-                    final byte[] hash = sha256.digest(this.data);
-                    if (!Arrays.equals(hash, this.hash)) {
-                        throw new IllegalStateException("Hash mismatch");
-                    }
-                } catch (final Throwable e) {
-                    throw new RuntimeException("Failed to verify data hash", e);
+            this.receivedChunks[index] = true;
+            return --this.remainingChunks == 0;
+        }
+
+        /** Retained for integrations using synchronous decoding; packet handlers use acceptDataChunk. */
+        public ResourcePack processDataChunk(final long chunk, final byte[] data) {
+            return this.acceptDataChunk(chunk, data) ? this.verifyAndParse() : null;
+        }
+
+        public ResourcePack verifyAndParse() {
+            if (!this.isComplete()) {
+                throw new IllegalStateException("Resource pack data is incomplete");
+            }
+            try {
+                final MessageDigest sha256 = MessageDigest.getInstance("SHA-256");
+                final byte[] hash = sha256.digest(this.data);
+                if (!Arrays.equals(hash, this.hash)) {
+                    throw new IllegalStateException("Hash mismatch");
                 }
-                try {
-                    return new ResourcePack(new ZipContent(this.data));
-                } catch (final Throwable e) {
-                    throw new RuntimeException("Failed to parse resource pack data", e);
-                }
-            } else {
-                return null;
+            } catch (final Throwable e) {
+                throw new RuntimeException("Failed to verify data hash", e);
+            }
+            try {
+                return new ResourcePack(new ZipContent(this.data));
+            } catch (final Throwable e) {
+                throw new RuntimeException("Failed to parse resource pack data", e);
             }
         }
 
-        private boolean hasReceivedAllChunks() {
-            for (boolean receivedChunk : this.receivedChunks) {
-                if (!receivedChunk) {
-                    return false;
-                }
-            }
-            return true;
+        public boolean isComplete() {
+            return this.remainingChunks == 0;
+        }
+
+        public byte[] hash() {
+            return this.hash;
+        }
+
+        public boolean premium() {
+            return this.premium;
+        }
+
+        public PackType type() {
+            return this.type;
+        }
+
+        public long chunkSize() {
+            return this.chunkSize;
+        }
+
+        public boolean[] receivedChunks() {
+            return this.receivedChunks;
+        }
+
+        public byte[] data() {
+            return this.data;
         }
 
     }
