@@ -102,6 +102,7 @@ public class BedrockMappingData extends MappingDataBase {
     private IntSet javaFluidBlockStates;
     private Int2IntMap javaPottedBlockStates;
     private Map<String, IntSet> javaHeightMapBlockStates;
+    private Set<String> dataDrivenBedrockBlocks;
 
     // Biomes
     private CompoundTag bedrockBiomeDefinitions;
@@ -352,6 +353,13 @@ public class BedrockMappingData extends MappingDataBase {
                 }
                 this.javaHeightMapBlockStates.put(entry.getKey(), blockStates);
             }
+
+            final CompoundTag dataDrivenBedrockBlocksTag = this.readNbt("bedrock/data_driven_blocks.nbt");
+            this.dataDrivenBedrockBlocks = new HashSet<>(dataDrivenBedrockBlocksTag.size());
+            for (Map.Entry<String, Tag> entry : dataDrivenBedrockBlocksTag.getValue().entrySet()) {
+                this.dataDrivenBedrockBlocks.add(entry.getKey());
+            }
+
         }
 
         { // Biomes
@@ -1099,6 +1107,10 @@ public class BedrockMappingData extends MappingDataBase {
 
     public Map<String, IntSet> getJavaHeightMapBlockStates() {
         return this.javaHeightMapBlockStates;
+    }
+
+    public Set<String> getBedrockDataDrivenBlocks() {
+        return this.dataDrivenBedrockBlocks;
     }
 
     public CompoundTag getBedrockBiomeDefinitions() {

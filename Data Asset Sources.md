@@ -35,6 +35,9 @@ This file has been generated using `./gradlew generateBedrockSoundLists` from th
 [Mojang/bedrock-samples](https://github.com/Mojang/bedrock-samples/blob/84aa19df535fcf6d044f28bf76f236029bd8407a/metadata/doc_modules/addons.json)  
 [wiki.bedrock.dev](https://wiki.bedrock.dev/blocks/block-traits.html)
 
+### data/bedrock/data_driven_blocks.nbt
+[CloudburstMC/Data](https://github.com/CloudburstMC/Data/blob/e5c84599b43b2670e9c22ae3d032f925a7d9590c/data_driven_blocks.nbt)
+
 ### data/bedrock/effects.json
 
 [minecraft.wiki](https://minecraft.wiki/w/Effect)
