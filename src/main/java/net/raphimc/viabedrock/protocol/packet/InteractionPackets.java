@@ -318,6 +318,10 @@ public final class InteractionPackets {
             // TODO: Handle Passenger type if needed
             switch (linkType.type()) {
                 case Riding, Passenger -> { // TODO: This needs to be ordered properly based on the link types (rider first, then passengers)
+                    if (passenger == null) {
+                        wrapper.cancel();
+                        return;
+                    }
                     vehicle.addPassenger(passenger.uniqueId());
 
                     wrapper.write(Types.VAR_INT, entityTracker.getEntityByUid(linkType.fromEntityUniqueId()).javaId()); // vehicle
@@ -332,7 +336,8 @@ public final class InteractionPackets {
                     }
                 }
                 case None -> { // Remove
-                    vehicle.removePassenger(passenger.uniqueId());
+                    // Passenger may already be despawned, but its uid can still be in the vehicle's passenger list
+                    vehicle.removePassenger(linkType.toEntityUniqueId());
 
                     wrapper.write(Types.VAR_INT, vehicle.javaId()); // vehicle
                     wrapper.write(Types.VAR_INT, vehicle.passengers().size()); // number of passengers
@@ -340,7 +345,7 @@ public final class InteractionPackets {
                         wrapper.write(Types.VAR_INT, entityTracker.getEntityByUid(passengerUid).javaId()); // passenger id
                     }
 
-                    if (passenger.uniqueId() == entityTracker.getClientPlayer().uniqueId()) { // TODO: This could be applied to all passengers not just players
+                    if (linkType.toEntityUniqueId() == entityTracker.getClientPlayer().uniqueId()) { // TODO: This could be applied to all passengers not just players
                         // The player is no longer riding an entity, update the state
                         entityTracker.getClientPlayer().setMountEntityRuntimeId(-1);
                         entityTracker.getClientPlayer().setRequestedDismount(false);
