@@ -52,7 +52,7 @@ public class BlockStateRewriter implements StorableObject {
         this.blockStateIdMappings.defaultReturnValue(-1);
         this.legacyBlockStateIdMappings.defaultReturnValue(-1);
 
-        final List<BedrockBlockState> bedrockBlockStates = new ArrayList<>(BedrockProtocol.MAPPINGS.getBedrockBlockStates());
+        final List<BedrockBlockState> bedrockBlockStates = this.getBedrockBlockStates(blockProperties);
         final Map<BlockState, Integer> javaBlockStates = BedrockProtocol.MAPPINGS.getJavaBlockStates();
         final Map<BlockState, BlockState> bedrockToJavaBlockStates = BedrockProtocol.MAPPINGS.getBedrockToJavaBlockStates();
         final Map<String, String> blockTags = BedrockProtocol.MAPPINGS.getBedrockCustomBlockTags();
@@ -190,6 +190,22 @@ public class BlockStateRewriter implements StorableObject {
         }
 
         this.blockStateSanitizer = new BlockStateSanitizer(bedrockBlockStates);
+    }
+
+    private List<BedrockBlockState> getBedrockBlockStates(final BlockProperties[] definitions) {
+        final Set<String> registered = new HashSet<>();
+        for (final BlockProperties definition : definitions) {
+            if (definition.properties().contains("vanilla_block_data")) {
+                registered.add(definition.name().toLowerCase(Locale.ROOT));
+            }
+        }
+        final List<BedrockBlockState> states = new ArrayList<>(BedrockProtocol.MAPPINGS.getBedrockBlockStates().size());
+        for (final BedrockBlockState state : BedrockProtocol.MAPPINGS.getBedrockBlockStates()) {
+            if (!BedrockProtocol.MAPPINGS.getBedrockDataDrivenBlocks().contains(state.namespacedIdentifier()) || registered.contains(state.namespacedIdentifier())) {
+                states.add(state);
+            }
+        }
+        return states;
     }
 
     public int bedrockId(final CompoundTag bedrockBlockStateTag) {
