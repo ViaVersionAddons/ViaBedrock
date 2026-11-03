@@ -726,26 +726,8 @@
     "componentBased": false
   },
   {
-    "name": "minecraft:black_concrete_double_slab",
-    "id": -1234,
-    "version": 2,
-    "componentBased": false
-  },
-  {
     "name": "minecraft:black_concrete_powder",
     "id": -723,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:black_concrete_slab",
-    "id": -1218,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:black_concrete_stairs",
-    "id": -1214,
     "version": 2,
     "componentBased": false
   },
@@ -800,24 +782,6 @@
   {
     "name": "minecraft:black_wool",
     "id": -554,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:black_wool_double_slab",
-    "id": -1184,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:black_wool_slab",
-    "id": -1168,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:black_wool_stairs",
-    "id": -1164,
     "version": 2,
     "componentBased": false
   },
@@ -918,26 +882,8 @@
     "componentBased": false
   },
   {
-    "name": "minecraft:blue_concrete_double_slab",
-    "id": -1243,
-    "version": 2,
-    "componentBased": false
-  },
-  {
     "name": "minecraft:blue_concrete_powder",
     "id": -719,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:blue_concrete_slab",
-    "id": -1227,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:blue_concrete_stairs",
-    "id": -1201,
     "version": 2,
     "componentBased": false
   },
@@ -1010,24 +956,6 @@
   {
     "name": "minecraft:blue_wool",
     "id": -563,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:blue_wool_double_slab",
-    "id": -1193,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:blue_wool_slab",
-    "id": -1177,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:blue_wool_stairs",
-    "id": -1151,
     "version": 2,
     "componentBased": false
   },
@@ -1230,26 +1158,8 @@
     "componentBased": false
   },
   {
-    "name": "minecraft:brown_concrete_double_slab",
-    "id": -1235,
-    "version": 2,
-    "componentBased": false
-  },
-  {
     "name": "minecraft:brown_concrete_powder",
     "id": -720,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:brown_concrete_slab",
-    "id": -1219,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:brown_concrete_stairs",
-    "id": -1213,
     "version": 2,
     "componentBased": false
   },
@@ -1322,24 +1232,6 @@
   {
     "name": "minecraft:brown_wool",
     "id": -555,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:brown_wool_double_slab",
-    "id": -1185,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:brown_wool_slab",
-    "id": -1169,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:brown_wool_stairs",
-    "id": -1163,
     "version": 2,
     "componentBased": false
   },
@@ -2700,26 +2592,8 @@
     "componentBased": false
   },
   {
-    "name": "minecraft:cyan_concrete_double_slab",
-    "id": -1241,
-    "version": 2,
-    "componentBased": false
-  },
-  {
     "name": "minecraft:cyan_concrete_powder",
     "id": -717,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:cyan_concrete_slab",
-    "id": -1225,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:cyan_concrete_stairs",
-    "id": -1210,
     "version": 2,
     "componentBased": false
   },
@@ -2774,24 +2648,6 @@
   {
     "name": "minecraft:cyan_wool",
     "id": -561,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:cyan_wool_double_slab",
-    "id": -1191,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:cyan_wool_slab",
-    "id": -1175,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:cyan_wool_stairs",
-    "id": -1160,
     "version": 2,
     "componentBased": false
   },
@@ -5058,26 +4914,8 @@
     "componentBased": false
   },
   {
-    "name": "minecraft:gray_concrete_double_slab",
-    "id": -1233,
-    "version": 2,
-    "componentBased": false
-  },
-  {
     "name": "minecraft:gray_concrete_powder",
     "id": -715,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:gray_concrete_slab",
-    "id": -1217,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:gray_concrete_stairs",
-    "id": -1208,
     "version": 2,
     "componentBased": false
   },
@@ -5136,24 +4974,6 @@
     "componentBased": false
   },
   {
-    "name": "minecraft:gray_wool_double_slab",
-    "id": -1183,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:gray_wool_slab",
-    "id": -1167,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:gray_wool_stairs",
-    "id": -1158,
-    "version": 2,
-    "componentBased": false
-  },
-  {
     "name": "minecraft:green_bundle",
     "id": 868,
     "version": 1,
@@ -5184,26 +5004,8 @@
     "componentBased": false
   },
   {
-    "name": "minecraft:green_concrete_double_slab",
-    "id": -1240,
-    "version": 2,
-    "componentBased": false
-  },
-  {
     "name": "minecraft:green_concrete_powder",
     "id": -721,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:green_concrete_slab",
-    "id": -1224,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:green_concrete_stairs",
-    "id": -1212,
     "version": 2,
     "componentBased": false
   },
@@ -5258,24 +5060,6 @@
   {
     "name": "minecraft:green_wool",
     "id": -560,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:green_wool_double_slab",
-    "id": -1190,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:green_wool_slab",
-    "id": -1174,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:green_wool_stairs",
-    "id": -1162,
     "version": 2,
     "componentBased": false
   },
@@ -6402,26 +6186,8 @@
     "componentBased": false
   },
   {
-    "name": "minecraft:light_blue_concrete_double_slab",
-    "id": -1242,
-    "version": 2,
-    "componentBased": false
-  },
-  {
     "name": "minecraft:light_blue_concrete_powder",
     "id": -711,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:light_blue_concrete_slab",
-    "id": -1226,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:light_blue_concrete_stairs",
-    "id": -1204,
     "version": 2,
     "componentBased": false
   },
@@ -6480,24 +6246,6 @@
     "componentBased": false
   },
   {
-    "name": "minecraft:light_blue_wool_double_slab",
-    "id": -1192,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:light_blue_wool_slab",
-    "id": -1176,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:light_blue_wool_stairs",
-    "id": -1154,
-    "version": 2,
-    "componentBased": false
-  },
-  {
     "name": "minecraft:light_gray_bundle",
     "id": 870,
     "version": 1,
@@ -6528,26 +6276,8 @@
     "componentBased": false
   },
   {
-    "name": "minecraft:light_gray_concrete_double_slab",
-    "id": -1232,
-    "version": 2,
-    "componentBased": false
-  },
-  {
     "name": "minecraft:light_gray_concrete_powder",
     "id": -716,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:light_gray_concrete_slab",
-    "id": -1216,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:light_gray_concrete_stairs",
-    "id": -1209,
     "version": 2,
     "componentBased": false
   },
@@ -6596,24 +6326,6 @@
   {
     "name": "minecraft:light_gray_wool",
     "id": -552,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:light_gray_wool_double_slab",
-    "id": -1182,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:light_gray_wool_slab",
-    "id": -1166,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:light_gray_wool_stairs",
-    "id": -1159,
     "version": 2,
     "componentBased": false
   },
@@ -6672,26 +6384,8 @@
     "componentBased": false
   },
   {
-    "name": "minecraft:lime_concrete_double_slab",
-    "id": -1239,
-    "version": 2,
-    "componentBased": false
-  },
-  {
     "name": "minecraft:lime_concrete_powder",
     "id": -713,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:lime_concrete_slab",
-    "id": -1223,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:lime_concrete_stairs",
-    "id": -1206,
     "version": 2,
     "componentBased": false
   },
@@ -6746,24 +6440,6 @@
   {
     "name": "minecraft:lime_wool",
     "id": -559,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:lime_wool_double_slab",
-    "id": -1189,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:lime_wool_slab",
-    "id": -1173,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:lime_wool_stairs",
-    "id": -1156,
     "version": 2,
     "componentBased": false
   },
@@ -6888,26 +6564,8 @@
     "componentBased": false
   },
   {
-    "name": "minecraft:magenta_concrete_double_slab",
-    "id": -1245,
-    "version": 2,
-    "componentBased": false
-  },
-  {
     "name": "minecraft:magenta_concrete_powder",
     "id": -710,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:magenta_concrete_slab",
-    "id": -1229,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:magenta_concrete_stairs",
-    "id": -1203,
     "version": 2,
     "componentBased": false
   },
@@ -6962,24 +6620,6 @@
   {
     "name": "minecraft:magenta_wool",
     "id": -565,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:magenta_wool_double_slab",
-    "id": -1195,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:magenta_wool_slab",
-    "id": -1179,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:magenta_wool_stairs",
-    "id": -1153,
     "version": 2,
     "componentBased": false
   },
@@ -7890,26 +7530,8 @@
     "componentBased": false
   },
   {
-    "name": "minecraft:orange_concrete_double_slab",
-    "id": -1237,
-    "version": 2,
-    "componentBased": false
-  },
-  {
     "name": "minecraft:orange_concrete_powder",
     "id": -709,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:orange_concrete_slab",
-    "id": -1221,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:orange_concrete_stairs",
-    "id": -1202,
     "version": 2,
     "componentBased": false
   },
@@ -7976,24 +7598,6 @@
   {
     "name": "minecraft:orange_wool",
     "id": -557,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:orange_wool_double_slab",
-    "id": -1187,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:orange_wool_slab",
-    "id": -1171,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:orange_wool_stairs",
-    "id": -1152,
     "version": 2,
     "componentBased": false
   },
@@ -8394,26 +7998,8 @@
     "componentBased": false
   },
   {
-    "name": "minecraft:pink_concrete_double_slab",
-    "id": -1246,
-    "version": 2,
-    "componentBased": false
-  },
-  {
     "name": "minecraft:pink_concrete_powder",
     "id": -714,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:pink_concrete_slab",
-    "id": -1230,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:pink_concrete_stairs",
-    "id": -1207,
     "version": 2,
     "componentBased": false
   },
@@ -8480,24 +8066,6 @@
   {
     "name": "minecraft:pink_wool",
     "id": -566,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:pink_wool_double_slab",
-    "id": -1196,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:pink_wool_slab",
-    "id": -1180,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:pink_wool_stairs",
-    "id": -1157,
     "version": 2,
     "componentBased": false
   },
@@ -9186,26 +8754,8 @@
     "componentBased": false
   },
   {
-    "name": "minecraft:purple_concrete_double_slab",
-    "id": -1244,
-    "version": 2,
-    "componentBased": false
-  },
-  {
     "name": "minecraft:purple_concrete_powder",
     "id": -718,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:purple_concrete_slab",
-    "id": -1228,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:purple_concrete_stairs",
-    "id": -1211,
     "version": 2,
     "componentBased": false
   },
@@ -9260,24 +8810,6 @@
   {
     "name": "minecraft:purple_wool",
     "id": -564,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:purple_wool_double_slab",
-    "id": -1194,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:purple_wool_slab",
-    "id": -1178,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:purple_wool_stairs",
-    "id": -1161,
     "version": 2,
     "componentBased": false
   },
@@ -9486,26 +9018,8 @@
     "componentBased": false
   },
   {
-    "name": "minecraft:red_concrete_double_slab",
-    "id": -1236,
-    "version": 2,
-    "componentBased": false
-  },
-  {
     "name": "minecraft:red_concrete_powder",
     "id": -722,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:red_concrete_slab",
-    "id": -1220,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:red_concrete_stairs",
-    "id": -1199,
     "version": 2,
     "componentBased": false
   },
@@ -9624,12 +9138,6 @@
     "componentBased": false
   },
   {
-    "name": "minecraft:red_shrub",
-    "id": 853,
-    "version": 1,
-    "componentBased": true
-  },
-  {
     "name": "minecraft:red_shulker_box",
     "id": -626,
     "version": 2,
@@ -9662,24 +9170,6 @@
   {
     "name": "minecraft:red_wool",
     "id": -556,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:red_wool_double_slab",
-    "id": -1186,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:red_wool_slab",
-    "id": -1170,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:red_wool_stairs",
-    "id": -1149,
     "version": 2,
     "componentBased": false
   },
@@ -9970,12 +9460,6 @@
     "id": 442,
     "version": 2,
     "componentBased": false
-  },
-  {
-    "name": "minecraft:shelf_mushroom",
-    "id": 854,
-    "version": 1,
-    "componentBased": true
   },
   {
     "name": "minecraft:shelter_pottery_sherd",
@@ -12060,26 +11544,8 @@
     "componentBased": false
   },
   {
-    "name": "minecraft:white_concrete_double_slab",
-    "id": -1231,
-    "version": 2,
-    "componentBased": false
-  },
-  {
     "name": "minecraft:white_concrete_powder",
     "id": 237,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:white_concrete_slab",
-    "id": -1215,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:white_concrete_stairs",
-    "id": -1200,
     "version": 2,
     "componentBased": false
   },
@@ -12140,24 +11606,6 @@
   {
     "name": "minecraft:white_wool",
     "id": 35,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:white_wool_double_slab",
-    "id": -1181,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:white_wool_slab",
-    "id": -1165,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:white_wool_stairs",
-    "id": -1150,
     "version": 2,
     "componentBased": false
   },
@@ -12336,26 +11784,8 @@
     "componentBased": false
   },
   {
-    "name": "minecraft:yellow_concrete_double_slab",
-    "id": -1238,
-    "version": 2,
-    "componentBased": false
-  },
-  {
     "name": "minecraft:yellow_concrete_powder",
     "id": -712,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:yellow_concrete_slab",
-    "id": -1222,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:yellow_concrete_stairs",
-    "id": -1205,
     "version": 2,
     "componentBased": false
   },
@@ -12416,24 +11846,6 @@
   {
     "name": "minecraft:yellow_wool",
     "id": -558,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:yellow_wool_double_slab",
-    "id": -1188,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:yellow_wool_slab",
-    "id": -1172,
-    "version": 2,
-    "componentBased": false
-  },
-  {
-    "name": "minecraft:yellow_wool_stairs",
-    "id": -1155,
     "version": 2,
     "componentBased": false
   },
