@@ -58,7 +58,7 @@ dependencies {
     api("io.netty:netty-codec-http:4.2.19.Final") {
         transitive = false
     }
-    api("io.netty:netty-codec-compression:4.2.19.Final") {
+    api("io.netty:netty-codec-compression:4.2.20.Final") {
         transitive = false
     }
     api "io.jsonwebtoken:jjwt-impl:0.13.0"
