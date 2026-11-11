@@ -55,7 +55,7 @@ dependencies {
     compileOnly "io.netty:netty-handler:4.2.20.Final"
     compileOnly "com.google.code.gson:gson:2.15.0"
 
-    api("io.netty:netty-codec-http:4.2.19.Final") {
+    api("io.netty:netty-codec-http:4.2.20.Final") {
         transitive = false
     }
     api("io.netty:netty-codec-compression:4.2.19.Final") {
