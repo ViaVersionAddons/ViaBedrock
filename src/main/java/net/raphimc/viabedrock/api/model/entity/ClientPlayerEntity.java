@@ -61,6 +61,7 @@ public class ClientPlayerEntity extends PlayerEntity {
 
     // Position syncing
     private int pendingTeleportId;
+    private int authoritativeTeleportId;
     private boolean waitingForPositionSync;
     private boolean serverSideTeleportConfirmed;
 
@@ -117,9 +118,13 @@ public class ClientPlayerEntity extends PlayerEntity {
     }
 
     public void writePlayerPositionPacketToClient(final PacketWrapper wrapper, final Set<Relative> relatives, final boolean fakeTeleport) {
-        this.pendingTeleportId = this.teleportId.getAndIncrement();
+        this.serverSideTeleportConfirmed = false;
+        this.pendingTeleportId = this.teleportId.getAndIncrement() * (fakeTeleport ? -1 : 1);
+        if (!fakeTeleport) {
+            this.authoritativeTeleportId = this.pendingTeleportId;
+        }
 
-        wrapper.write(Types.VAR_INT, this.pendingTeleportId * (fakeTeleport ? -1 : 1)); // teleport id
+        wrapper.write(Types.VAR_INT, this.pendingTeleportId); // teleport id
         wrapper.write(Types.DOUBLE, relatives.contains(Relative.X) ? 0D : (double) this.position.x()); // x
         wrapper.write(Types.DOUBLE, relatives.contains(Relative.Y) ? 0D : (double) (this.position.y() - this.eyeOffset())); // y
         wrapper.write(Types.DOUBLE, relatives.contains(Relative.Z) ? 0D : (double) this.position.z()); // z
@@ -212,13 +217,18 @@ public class ClientPlayerEntity extends PlayerEntity {
     }
 
     public void confirmTeleport(final int teleportId) {
-        if (teleportId < 0) { // Fake teleport
-            if (this.pendingTeleportId == -teleportId) {
-                this.pendingTeleportId = 0;
-                this.waitingForPositionSync = false;
+        if (teleportId == 0) {
+            return;
+        }
+        if (this.pendingTeleportId == teleportId) {
+            this.pendingTeleportId = 0;
+            this.waitingForPositionSync = false;
+            if (teleportId > 0) {
+                this.serverSideTeleportConfirmed = true;
             }
-        } else {
-            this.serverSideTeleportConfirmed = true;
+        }
+        if (teleportId > 0 && this.authoritativeTeleportId == teleportId) {
+            this.authoritativeTeleportId = 0;
             if (!this.initiallySpawned) {
                 ViaBedrock.getPlatform().getLogger().log(Level.WARNING, "Received teleport confirm for teleport id " + teleportId + " but player is not spawned yet");
             }
