@@ -210,8 +210,24 @@ public final class ClientPlayerPackets {
             protected void register() {
                 handler(wrapper -> {
                     wrapper.cancel();
-                    wrapper.user().get(GameSessionStorage.class).setLevelGameType(GameType.getByValue(wrapper.read(BedrockTypes.VAR_INT), GameType.Undefined)); // game type
-                    wrapper.user().get(EntityTracker.class).getClientPlayer().updateJavaGameMode();
+                    final GameSessionStorage gameSession = wrapper.user().get(GameSessionStorage.class);
+                    final GameType previousDefault = gameSession.getLevelGameType();
+                    final GameType nextDefault = GameType.getByValue(wrapper.read(BedrockTypes.VAR_INT), GameType.Undefined); // game type
+                    gameSession.setLevelGameType(nextDefault);
+                    final ClientPlayerEntity clientPlayer = wrapper.user().get(EntityTracker.class).getClientPlayer();
+                    clientPlayer.updateJavaGameMode();
+                    final var updates = wrapper.user().get(PlayerListStorage.class).getGameModeUpdates(previousDefault, nextDefault);
+                    updates.remove(clientPlayer.javaUuid());
+                    if (!updates.isEmpty()) {
+                        final PacketWrapper playerInfoUpdate = PacketWrapper.create(ClientboundPackets26_3.PLAYER_INFO_UPDATE, wrapper.user());
+                        playerInfoUpdate.write(Types.PROFILE_ACTIONS_ENUM1_21_4, BitSets.create(8, PlayerInfoUpdateAction.UPDATE_GAME_MODE)); // actions
+                        playerInfoUpdate.write(Types.VAR_INT, updates.size()); // length
+                        updates.forEach((uuid, mode) -> {
+                            playerInfoUpdate.write(Types.UUID, uuid);
+                            playerInfoUpdate.write(Types.VAR_INT, mode.ordinal());
+                        });
+                        playerInfoUpdate.send(BedrockProtocol.class);
+                    }
                 });
                 handler(CLIENT_PLAYER_GAME_MODE_INFO_UPDATE);
                 handler(CLIENT_PLAYER_GAME_MODE_UPDATE);
@@ -227,18 +243,26 @@ public final class ClientPlayerPackets {
             wrapper.read(BedrockTypes.UNSIGNED_VAR_LONG); // tick
 
             final Pair<UUID, String> playerListEntry = playerList.getPlayer(entityUniqueId);
-            if (playerListEntry == null) {
+            // The local actor can receive game mode updates without a player list entry.
+            final boolean localPlayer = entityUniqueId == clientPlayer.abilities().entityUniqueId()
+                || (playerListEntry != null && playerListEntry.key().equals(clientPlayer.javaUuid()));
+            if (playerListEntry == null && !localPlayer) {
                 wrapper.cancel();
                 return;
+            }
+            if (localPlayer) {
+                clientPlayer.setGameType(gameType);
+            } else {
+                playerList.setGameType(playerListEntry.key(), entityUniqueId, gameType);
             }
 
             wrapper.write(Types.PROFILE_ACTIONS_ENUM1_21_4, BitSets.create(8, PlayerInfoUpdateAction.UPDATE_GAME_MODE)); // actions
             wrapper.write(Types.VAR_INT, 1); // length
-            wrapper.write(Types.UUID, playerListEntry.key()); // uuid
-            wrapper.write(Types.VAR_INT, GameTypeRewriter.getEffectiveGameMode(gameType, gameSession.getLevelGameType()).ordinal()); // game mode
+            wrapper.write(Types.UUID, localPlayer ? clientPlayer.javaUuid() : playerListEntry.key()); // uuid
+            wrapper.write(Types.VAR_INT, localPlayer ? clientPlayer.javaGameMode().ordinal()
+                : GameTypeRewriter.getEffectiveGameMode(gameType, gameSession.getLevelGameType()).ordinal()); // game mode
 
-            if (playerListEntry.key().equals(clientPlayer.javaUuid())) {
-                clientPlayer.setGameType(gameType);
+            if (localPlayer) {
                 CLIENT_PLAYER_GAME_MODE_UPDATE.handle(wrapper);
             }
         });
