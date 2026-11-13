@@ -21,6 +21,7 @@ import com.viaversion.nbt.tag.CompoundTag;
 import com.viaversion.viaversion.api.connection.UserConnection;
 import com.viaversion.viaversion.api.minecraft.BlockPosition;
 import com.viaversion.viaversion.api.minecraft.EulerAngle;
+import com.viaversion.viaversion.api.minecraft.VillagerData;
 import com.viaversion.viaversion.api.minecraft.entities.EntityTypes26_3;
 import com.viaversion.viaversion.api.minecraft.entitydata.EntityData;
 import com.viaversion.viaversion.api.minecraft.entitydata.EntityDataType;
@@ -31,6 +32,7 @@ import net.raphimc.viabedrock.api.model.entity.Entity;
 import net.raphimc.viabedrock.api.model.entity.LivingEntity;
 import net.raphimc.viabedrock.api.model.entity.properties.EntityProperty;
 import net.raphimc.viabedrock.api.model.entity.properties.EntityPropertyList;
+import net.raphimc.viabedrock.api.util.MathUtil;
 import net.raphimc.viabedrock.protocol.BedrockProtocol;
 import net.raphimc.viabedrock.protocol.data.enums.bedrock.ActorDataIds;
 import net.raphimc.viabedrock.protocol.data.enums.bedrock.ActorFlags;
@@ -186,6 +188,20 @@ public final class EntityMetadataRewriter {
                     javaEntityData.add(new EntityData(entity.getJavaEntityDataIndex(EntityDataFields.LAYING_EGG), VersionedTypes.V26_3.entityDataTypes().booleanType, bedrockFlags.contains(ActorFlags.LAYING_EGG)));
                 }
 
+                if (entity.javaType().isOrHasParent(EntityTypes26_3.ABSTRACT_HORSE)) {
+                    byte horseFlags = 0;
+                    if (bedrockFlags.contains(ActorFlags.TAMED)) {
+                        horseFlags |= 0x02;
+                    }
+                    if (bedrockFlags.contains(ActorFlags.EATING)) {
+                        horseFlags |= 0x10;
+                    }
+                    if (bedrockFlags.contains(ActorFlags.STANDING)) {
+                        horseFlags |= 0x20;
+                    }
+                    javaEntityData.add(new EntityData(entity.getJavaEntityDataIndex(EntityDataFields.FLAGS), VersionedTypes.V26_3.entityDataTypes().byteType, horseFlags));
+                }
+
                 if (entity.javaType().isOrHasParent(EntityTypes26_3.ABSTRACT_CHESTED_HORSE)) {
                     javaEntityData.add(new EntityData(entity.getJavaEntityDataIndex(EntityDataFields.CHEST), VersionedTypes.V26_3.entityDataTypes().booleanType, bedrockFlags.contains(ActorFlags.CHESTED)));
                 }
@@ -254,7 +270,15 @@ public final class EntityMetadataRewriter {
                 }
 
             }
-            case VARIANT -> {
+            case VARIANT, MARK_VARIANT, TRADE_TIER -> {
+                // Legacy Bedrock villagers use different profession IDs.
+                if (entity.type().equals("minecraft:villager_v2") || entity.type().equals("minecraft:zombie_villager_v2")) {
+                    rewriteVillagerData(entity, javaEntityData);
+                    break;
+                }
+                if (id != ActorDataIds.VARIANT) {
+                    return false;
+                }
                 final int variant = readNumber(entityData).intValue();
 
                 switch (entity.javaType()) {
@@ -369,6 +393,9 @@ public final class EntityMetadataRewriter {
                 }
             }
             case OWNER -> {
+                if (entity.javaType().isOrHasParent(EntityTypes26_3.ABSTRACT_HORSE)) {
+                    break; // The Java client gets horse taming state from the horse flags.
+                }
                 final long ownerId = readNumber(entityData).longValue();
                 if (ownerId == -1) {
                     break; // No owner
@@ -740,6 +767,46 @@ public final class EntityMetadataRewriter {
         }
 
         return true;
+    }
+
+    private static void rewriteVillagerData(final Entity entity, final List<EntityData> javaEntityData) {
+        // Java 26.3 uses the built-in villager type and profession registry IDs.
+        final int type = switch (getIntEntityData(entity, ActorDataIds.MARK_VARIANT)) {
+            case 1 -> 0; // DESERT
+            case 2 -> 1; // JUNGLE
+            case 3 -> 3; // SAVANNA
+            case 4 -> 4; // SNOW
+            case 5 -> 5; // SWAMP
+            case 6 -> 6; // TAIGA
+            default -> 2; // PLAINS
+        };
+        final int profession = switch (getIntEntityData(entity, ActorDataIds.VARIANT)) {
+            case 1 -> 5; // FARMER
+            case 2 -> 6; // FISHERMAN
+            case 3 -> 12; // SHEPHERD
+            case 4 -> 7; // FLETCHER
+            case 5 -> 9; // LIBRARIAN
+            case 6 -> 3; // CARTOGRAPHER
+            case 7 -> 4; // CLERIC
+            case 8 -> 1; // ARMORER
+            case 9 -> 14; // WEAPONSMITH
+            case 10 -> 13; // TOOLSMITH
+            case 11 -> 2; // BUTCHER
+            case 12 -> 8; // LEATHERWORKER
+            case 13 -> 10; // MASON
+            case 14 -> 11; // NITWIT
+            default -> 0; // NONE
+        };
+        final int level = MathUtil.clamp(getIntEntityData(entity, ActorDataIds.TRADE_TIER), 0, 4) + 1;
+        final int index = entity.getJavaEntityDataIndex(EntityDataFields.VILLAGER_DATA);
+        // Several Bedrock fields can change in the same packet. Send only the latest combined value.
+        javaEntityData.removeIf(data -> data.id() == index);
+        javaEntityData.add(new EntityData(index, VersionedTypes.V26_3.entityDataTypes().villagerDataType, new VillagerData(type, profession, level)));
+    }
+
+    private static int getIntEntityData(final Entity entity, final ActorDataIds id) {
+        final EntityData data = entity.entityData().get(id);
+        return data != null ? data.<Integer>value() : 0;
     }
 
     public static void rewriteProperties(final UserConnection user, final Entity entity, final EntityProperties properties, final List<EntityData> javaEntityData) {
