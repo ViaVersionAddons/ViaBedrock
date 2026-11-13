@@ -279,6 +279,16 @@ public final class EntityMetadataRewriter {
                     case HORSE -> {
                         javaEntityData.add(new EntityData(entity.getJavaEntityDataIndex(EntityDataFields.TYPE_VARIANT), VersionedTypes.V26_3.entityDataTypes().varIntType, variant));
                     }
+                    case LLAMA, TRADER_LLAMA -> {
+                        final int javaVariant = switch (variant) {
+                            case 0, 1, 2, 3 -> variant;
+                            default -> {
+                                ViaBedrock.getPlatform().getLogger().warning("Unknown llama variant " + variant + ", defaulting to CREAMY.");
+                                yield 0;
+                            }
+                        };
+                        javaEntityData.add(new EntityData(entity.getJavaEntityDataIndex(EntityDataFields.VARIANT), VersionedTypes.V26_3.entityDataTypes().varIntType, javaVariant));
+                    }
                     case FROG -> {
                         final int javaVariant = switch (variant) {
                             case 0 -> 1; // TEMPERATE
