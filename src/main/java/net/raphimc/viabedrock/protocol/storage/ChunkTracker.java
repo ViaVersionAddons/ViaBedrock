@@ -48,6 +48,7 @@ import net.raphimc.viabedrock.api.chunk.datapalette.BedrockDataPalette;
 import net.raphimc.viabedrock.api.chunk.section.BedrockChunkSection;
 import net.raphimc.viabedrock.api.chunk.section.BedrockChunkSectionImpl;
 import net.raphimc.viabedrock.api.model.BedrockBlockState;
+import net.raphimc.viabedrock.api.model.BlockState;
 import net.raphimc.viabedrock.protocol.BedrockProtocol;
 import net.raphimc.viabedrock.protocol.ServerboundBedrockPackets;
 import net.raphimc.viabedrock.protocol.data.ProtocolConstants;
@@ -217,23 +218,32 @@ public class ChunkTracker extends StoredObject {
             remappedBlockState = ProtocolConstants.JAVA_AIR_ID;
         }
 
-        if (blockState0 != this.bedrockAirId() && blockPalettes.size() > 1) {
+        final int airId = this.bedrockAirId();
+        if (blockState0 != airId && blockPalettes.size() > 1) {
             final int blockState1 = blockPalettes.get(1).idAt(sectionX, sectionY, sectionZ);
-            if (blockState1 != this.bedrockAirId()) {
-                if (CustomBlockTags.WATER.equals(blockStateRewriter.tag(blockState1))) { // Waterlogging
-                    final int waterloggedBlockState = blockStateRewriter.waterlog(remappedBlockState);
-                    if (waterloggedBlockState != -1) {
-                        remappedBlockState = waterloggedBlockState;
-                    } else {
-                        ViaBedrock.getPlatform().getLogger().log(Level.WARNING, "Missing waterlogged block state: " + blockState0);
-                    }
-                } else {
-                    ViaBedrock.getPlatform().getLogger().log(Level.WARNING, "Invalid layer 2 block state. L1: " + blockState0 + ", L2: " + blockState1);
-                }
+            if (blockState1 != airId) {
+                return this.remapSecondBlockLayer(blockStateRewriter, blockState0, blockState1, remappedBlockState);
             }
         }
 
         return remappedBlockState;
+    }
+
+    private int remapSecondBlockLayer(final BlockStateRewriter blockStateRewriter, final int blockState0, final int blockState1, final int javaBlockState) {
+        if (CustomBlockTags.WATER.equals(blockStateRewriter.tag(blockState1))) {
+            final int waterloggedBlockState = blockStateRewriter.waterlog(javaBlockState);
+            if (waterloggedBlockState != -1) {
+                return waterloggedBlockState;
+            }
+            ViaBedrock.getPlatform().getLogger().log(Level.WARNING, "Missing waterlogged block state: " + blockState0);
+        } else {
+            final BlockState primaryState = blockStateRewriter.blockState(blockState0);
+            // Snowlogged blocks are stored under snow in Bedrock. Keep the snow depth in Java's single block state.
+            if (primaryState == null || !primaryState.namespacedIdentifier().equals("minecraft:snow_layer") || blockStateRewriter.blockState(blockState1) == null) {
+                ViaBedrock.getPlatform().getLogger().log(Level.WARNING, "Invalid layer 2 block state. L1: " + blockState0 + ", L2: " + blockState1);
+            }
+        }
+        return javaBlockState;
     }
 
     public BedrockBlockEntity getBlockEntity(final BlockPosition blockPosition) {
@@ -585,15 +595,10 @@ public class ChunkTracker extends StoredObject {
                                         continue;
                                     }
 
-                                    if (CustomBlockTags.WATER.equals(blockStateRewriter.tag(blockState1))) { // Waterlogging
-                                        final int waterloggedBlockState = blockStateRewriter.waterlog(remappedBlockPalette.idAt(x, y, z));
-                                        if (waterloggedBlockState != -1) {
-                                            remappedBlockPalette.setIdAt(x, y, z, waterloggedBlockState);
-                                        } else {
-                                            ViaBedrock.getPlatform().getLogger().log(Level.WARNING, "Missing waterlogged block state: " + blockState0);
-                                        }
-                                    } else {
-                                        ViaBedrock.getPlatform().getLogger().log(Level.WARNING, "Invalid layer 2 block state. L1: " + blockState0 + ", L2: " + blockState1);
+                                    final int javaBlockState = remappedBlockPalette.idAt(x, y, z);
+                                    final int combinedBlockState = this.remapSecondBlockLayer(blockStateRewriter, blockState0, blockState1, javaBlockState);
+                                    if (combinedBlockState != javaBlockState) {
+                                        remappedBlockPalette.setIdAt(x, y, z, combinedBlockState);
                                     }
                                 }
                             }
