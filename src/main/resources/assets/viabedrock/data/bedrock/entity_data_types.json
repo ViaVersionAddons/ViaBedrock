@@ -100,7 +100,7 @@
   "DATA_CHANGE_ON_PICKUP": null,
   "DATA_PICKUP_COUNT": null,
   "INTERACT_TEXT": null,
-  "TRADE_TIER": null,
+  "TRADE_TIER": "Int",
   "MAX_TRADE_TIER": null,
   "TRADE_EXPERIENCE": null,
   "SKIN_ID": null,
