@@ -59,7 +59,9 @@ public class EntityTracker extends StoredObject {
 
     public Entity addEntity(final long uniqueId, final long runtimeId, final String type, final EntityTypes26_3 javaType) {
         final UUID javaUuid = UUID.randomUUID();
-        if (javaType.isOrHasParent(EntityTypes26_3.ABSTRACT_HORSE)) {
+        if (javaType.is(EntityTypes26_3.ARMADILLO)) {
+            return this.addEntity(new ArmadilloEntity(this.user(), uniqueId, runtimeId, type, this.getNextJavaEntityId(), javaUuid));
+        } else if (javaType.isOrHasParent(EntityTypes26_3.ABSTRACT_HORSE)) {
             return this.addEntity(new AbstractHorseEntity(this.user(), uniqueId, runtimeId, type, this.getNextJavaEntityId(), javaUuid, javaType));
         } else if (javaType.isOrHasParent(EntityTypes26_3.MOB)) {
             return this.addEntity(new MobEntity(this.user(), uniqueId, runtimeId, type, this.getNextJavaEntityId(), javaUuid, javaType));
