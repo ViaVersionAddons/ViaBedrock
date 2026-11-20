@@ -373,6 +373,9 @@ public final class EntityMetadataRewriter {
                 if (ownerId == -1) {
                     break; // No owner
                 }
+                if (entity.javaType().is(EntityTypes26_3.ITEM)) {
+                    break; // The Bedrock server enforces who can pick up a dropped item.
+                }
                 final Entity ownerEntity = entityTracker.getEntityByUid(ownerId);
                 if (ownerEntity == null) {
                     ViaBedrock.getPlatform().getLogger().log(Level.WARNING, "Failed to find owner entity with id " + ownerId + " for entity " + entity.type());
