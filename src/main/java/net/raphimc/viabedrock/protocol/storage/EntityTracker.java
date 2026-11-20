@@ -184,6 +184,10 @@ public class EntityTracker extends StoredObject {
     }
 
     public Entity getEntityByJid(final int javaId) {
+        final Long uniqueId = this.javaIdToUniqueId.get(javaId);
+        if (uniqueId == null) {
+            return null;
+        }
         return this.entities.get((long) this.javaIdToUniqueId.get(javaId));
     }
 
