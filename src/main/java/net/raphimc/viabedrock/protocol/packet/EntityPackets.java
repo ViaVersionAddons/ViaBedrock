@@ -35,6 +35,7 @@ import com.viaversion.viaversion.api.type.types.version.VersionedTypes;
 import com.viaversion.viaversion.protocols.v26_2to26_3.packet.ClientboundPackets26_3;
 import com.viaversion.viaversion.util.Key;
 import net.raphimc.viabedrock.ViaBedrock;
+import net.raphimc.viabedrock.api.model.entity.ArmadilloEntity;
 import net.raphimc.viabedrock.api.model.entity.ClientPlayerEntity;
 import net.raphimc.viabedrock.api.model.entity.CustomEntity;
 import net.raphimc.viabedrock.api.model.entity.Entity;
@@ -94,7 +95,7 @@ public final class EntityPackets {
                 attributes[i] = new EntityAttribute(name, currentValue, minValue, maxValue);
             }
             final EntityData[] entityData = wrapper.read(BedrockTypes.ENTITY_DATA_ARRAY); // entity data
-            wrapper.read(BedrockTypes.ENTITY_PROPERTIES); // entity properties
+            final EntityProperties entityProperties = wrapper.read(BedrockTypes.ENTITY_PROPERTIES); // entity properties
             wrapper.read(BedrockTypes.ENTITY_LINK_ARRAY); // entity links
             wrapper.read(BedrockTypes.OPTIONAL_PASSENGER_OF_BLOCKS); // passenger of blocks
 
@@ -142,7 +143,14 @@ public final class EntityPackets {
             if (entity instanceof LivingEntity livingEntity) {
                 livingEntity.updateAttributes(attributes);
             }
-            entity.updateEntityData(entityData);
+            if (entity instanceof ArmadilloEntity) {
+                final List<EntityData> javaEntityData = new ArrayList<>();
+                entity.updateEntityData(entityData, javaEntityData);
+                entity.translateEntityProperties(entityProperties, javaEntityData);
+                entity.sendEntityData(javaEntityData);
+            } else {
+                entity.updateEntityData(entityData);
+            }
         });
         protocol.registerClientbound(ClientboundBedrockPackets.ADD_ITEM_ENTITY, ClientboundPackets26_3.ADD_ENTITY, wrapper -> {
             final EntityTracker entityTracker = wrapper.user().get(EntityTracker.class);

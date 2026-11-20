@@ -97,6 +97,10 @@ public class Entity {
     public final void updateEntityData(final EntityData[] entityData) {
         final List<EntityData> javaEntityData = new ArrayList<>();
         this.updateEntityData(entityData, javaEntityData);
+        this.sendEntityData(javaEntityData);
+    }
+
+    public final void sendEntityData(final List<EntityData> javaEntityData) {
         final PacketWrapper setEntityData = PacketWrapper.create(ClientboundPackets26_3.SET_ENTITY_DATA, this.user);
         setEntityData.write(Types.VAR_INT, this.javaId); // entity id
         setEntityData.write(VersionedTypes.V26_3.entityDataList, javaEntityData); // entity data
