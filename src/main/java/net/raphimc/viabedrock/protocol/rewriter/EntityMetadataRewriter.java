@@ -337,9 +337,25 @@ public final class EntityMetadataRewriter {
                         final int javaVariant = variant;
                         javaEntityData.add(new EntityData(entity.getJavaEntityDataIndex(EntityDataFields.VARIANT), VersionedTypes.V26_3.entityDataTypes().varIntType, javaVariant));
                     }
-                    case CAT -> { // TODO: Test when I can
-                        final int javaVariant = variant;
-                        javaEntityData.add(new EntityData(entity.getJavaEntityDataIndex(EntityDataFields.VARIANT), VersionedTypes.V26_3.entityDataTypes().varIntType, javaVariant));
+                    case CAT -> {
+                        final int javaVariant = switch (variant) {
+                            case 0 -> 0; // WHITE
+                            case 1 -> 6; // BLACK
+                            case 2 -> 10; // RED
+                            case 3 -> 3; // SIAMESE
+                            case 4 -> 9; // BRITISH_SHORTHAIR
+                            case 5 -> 2; // CALICO
+                            case 6 -> 5; // PERSIAN
+                            case 7 -> 8; // RAGDOLL
+                            case 8 -> 1; // TABBY
+                            case 9 -> 7; // ALL_BLACK
+                            case 10 -> 4; // JELLIE
+                            default -> {
+                                ViaBedrock.getPlatform().getLogger().warning("Unknown cat variant " + variant + ", defaulting to TABBY.");
+                                yield 1;
+                            }
+                        };
+                        javaEntityData.add(new EntityData(entity.getJavaEntityDataIndex(EntityDataFields.VARIANT), VersionedTypes.V26_3.entityDataTypes().catVariantType, javaVariant));
                     }
                     default -> {
                         if (variant != 0) { // For some reason bedrock seems to send variant 0 for many entities that don't have variants
