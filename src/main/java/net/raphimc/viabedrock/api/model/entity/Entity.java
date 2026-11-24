@@ -44,6 +44,8 @@ import java.util.logging.Level;
 
 public class Entity {
 
+    private static final BigInteger UNSIGNED_LONG_MASK = BigInteger.ONE.shiftLeft(Long.SIZE).subtract(BigInteger.ONE);
+
     protected final UserConnection user;
     protected final long uniqueId;
     protected final long runtimeId;
@@ -200,10 +202,13 @@ public class Entity {
     public Set<ActorFlags> entityFlags() {
         BigInteger combinedFlags = BigInteger.ZERO;
         if (this.entityData.containsKey(ActorDataIds.RESERVED_0)) {
-            combinedFlags = combinedFlags.add(BigInteger.valueOf(this.entityData.get(ActorDataIds.RESERVED_0).<Long>value().longValue()));
+            combinedFlags = combinedFlags.or(BigInteger.valueOf(this.entityData.get(ActorDataIds.RESERVED_0).<Long>value()).and(UNSIGNED_LONG_MASK));
         }
         if (this.entityData.containsKey(ActorDataIds.RESERVED_092)) {
-            combinedFlags = combinedFlags.add(BigInteger.valueOf(this.entityData.get(ActorDataIds.RESERVED_092).<Long>value().longValue()).shiftLeft(64));
+            combinedFlags = combinedFlags.or(BigInteger.valueOf(this.entityData.get(ActorDataIds.RESERVED_092).<Long>value()).and(UNSIGNED_LONG_MASK).shiftLeft(Long.SIZE));
+        }
+        if (this.entityData.containsKey(ActorDataIds.RESERVED_139)) {
+            combinedFlags = combinedFlags.or(BigInteger.valueOf(this.entityData.get(ActorDataIds.RESERVED_139).<Long>value()).and(UNSIGNED_LONG_MASK).shiftLeft(Long.SIZE * 2));
         }
         return EnumUtil.getEnumSetFromBitmask(ActorFlags.class, combinedFlags, ActorFlags::getValue);
     }
