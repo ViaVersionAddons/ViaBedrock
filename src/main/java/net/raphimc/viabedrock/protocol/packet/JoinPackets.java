@@ -137,6 +137,11 @@ public final class JoinPackets {
                     wrapper.write(Types.UUID, UUID.randomUUID()); // session id
 
                     ClientboundBaseProtocol1_7.onLoginSuccess(wrapper.user());
+                    if (protocolInfo.protocolVersion().newerThanOrEqualTo(ProtocolVersion.v1_20_2)) {
+                        // Bedrock may send packs before Java acknowledges login. Advance only
+                        // the server side so the preflight cannot synthesize another success.
+                        protocolInfo.setServerState(State.CONFIGURATION);
+                    }
                     sendClientCacheStatus(wrapper.user());
                 } else {
                     wrapper.setPacketType(ClientboundLoginPackets.LOGIN_DISCONNECT);
