@@ -143,12 +143,13 @@ public final class HudPackets {
 
             if (!profiles.isEmpty()) {
                 final PacketWrapper infoAddPacket = PacketWrapper.create(ClientboundPackets26_3.PLAYER_INFO_UPDATE, wrapper.user());
-                infoAddPacket.write(Types.PROFILE_ACTIONS_ENUM1_21_4, BitSets.create(8, PlayerInfoUpdateAction.ADD_PLAYER, PlayerInfoUpdateAction.UPDATE_LISTED, PlayerInfoUpdateAction.UPDATE_DISPLAY_NAME)); // actions
+                infoAddPacket.write(Types.PROFILE_ACTIONS_ENUM1_21_4, BitSets.create(8, PlayerInfoUpdateAction.ADD_PLAYER, PlayerInfoUpdateAction.UPDATE_GAME_MODE, PlayerInfoUpdateAction.UPDATE_LISTED, PlayerInfoUpdateAction.UPDATE_DISPLAY_NAME)); // actions
                 infoAddPacket.write(Types.VAR_INT, profiles.size()); // length
                 for (GameProfile profile : profiles) {
                     infoAddPacket.write(Types.UUID, profile.id()); // uuid
                     infoAddPacket.write(Types.STRING, StringUtil.encodeUuid(profile.id())); // username
                     infoAddPacket.write(Types.PROFILE_PROPERTY_ARRAY, profile.properties()); // properties
+                    infoAddPacket.write(Types.VAR_INT, playerListStorage.getJavaGameMode(profile.id(), wrapper.user().get(GameSessionStorage.class).getLevelGameType()).ordinal()); // game mode
                     infoAddPacket.write(Types.BOOLEAN, true); // listed
                     infoAddPacket.write(Types.OPTIONAL_TAG, TextUtil.stringToNbt(profile.name())); // display name
                 }
