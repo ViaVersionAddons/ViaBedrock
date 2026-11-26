@@ -24,8 +24,20 @@ import net.raphimc.viabedrock.protocol.model.BedrockItem;
 
 public class HudContainer extends InventoryRedirectContainer {
 
+    private static final int LEGACY_SIZE = 54;
+
     public HudContainer(final UserConnection user) {
-        super(user, (byte) ContainerID.CONTAINER_ID_PLAYER_ONLY_UI.getValue(), ContainerType.HUD, 54);
+        super(user, (byte) ContainerID.CONTAINER_ID_PLAYER_ONLY_UI.getValue(), ContainerType.HUD, 57);
+    }
+
+    @Override
+    public boolean setItems(final BedrockItem[] items) {
+        if (items.length == LEGACY_SIZE) {
+            final BedrockItem[] expanded = BedrockItem.emptyArray(this.size());
+            System.arraycopy(items, 0, expanded, 0, items.length);
+            return super.setItems(expanded);
+        }
+        return super.setItems(items);
     }
 
     @Override
