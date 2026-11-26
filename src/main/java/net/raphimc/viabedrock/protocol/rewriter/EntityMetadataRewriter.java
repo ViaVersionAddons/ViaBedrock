@@ -27,6 +27,7 @@ import com.viaversion.viaversion.api.minecraft.entitydata.EntityDataType;
 import com.viaversion.viaversion.api.type.types.version.VersionedTypes;
 import com.viaversion.viaversion.util.Key;
 import net.raphimc.viabedrock.ViaBedrock;
+import net.raphimc.viabedrock.api.model.entity.ArmadilloEntity;
 import net.raphimc.viabedrock.api.model.entity.Entity;
 import net.raphimc.viabedrock.api.model.entity.LivingEntity;
 import net.raphimc.viabedrock.api.model.entity.properties.EntityProperty;
@@ -790,6 +791,10 @@ public final class EntityMetadataRewriter {
 
                 ViaBedrock.getPlatform().getLogger().warning("Received int property " + integerProperty.identifier() + " for entity " + entity.type() + " with value " + value);
             } else if (property instanceof EntityProperty.EnumProperty enumProperty) {
+                if (i < 0 || i >= enumProperty.possibleValues().length) {
+                    ViaBedrock.getPlatform().getLogger().warning("Received invalid enum value " + i + " for property " + enumProperty.identifier() + " on entity " + entity.type());
+                    continue;
+                }
                 final String value = enumProperty.possibleValues()[i];
 
                 switch (enumProperty.identifier()) {
@@ -869,6 +874,13 @@ public final class EntityMetadataRewriter {
                             } else {
                                 ViaBedrock.getPlatform().getLogger().warning("Failed to find sound variant " + namespacedVariant + " in registry " + registryName + " for entity " + entity.type());
                             }
+                        }
+                    }
+                    case "minecraft:armadillo_state" -> {
+                        if (entity instanceof ArmadilloEntity armadillo) {
+                            armadillo.translateState(value, javaEntityData);
+                        } else {
+                            ViaBedrock.getPlatform().getLogger().warning("Received armadillo_state for non-ARMADILLO entity " + entity.type());
                         }
                     }
                     case "minecraft:chest_interaction" -> {
